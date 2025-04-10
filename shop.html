@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+	<meta charset="utf-8">
+	<title>Oregon Trail Simulation!</title>
+	<link rel="stylesheet" href="oregonTrail.css">
+	<script src="oregonTrail.js" defer></script> <!-- Ensure the JS loads after the HTML -->
+</head>
+<body>
+	<h1><b>Shop!</b></h1>
+
+	<form name="shop">
+		<label for="food">Food: $40.00</label>
+		<input id="food" type="number" placeholder="0" value="0" min="0" max="20"><br>
+		<label for="clothing">Clothing: $20.00</label>
+		<input id="clothing" type="number" placeholder="0" value="0" min="0" max="20"><br>
+		<label for="oxen">Oxen: $100.00</label>
+		<input id="oxen" type="number" placeholder="0" value="0" min="0" max="20"><br>
+		<label for="wagon">Wagon: $200.00</label>
+		<input id="wagon" type="number" placeholder="0" value="0" min="0" max="20"><br>
+		<label for="parts">Spare Parts: $50.00</label>
+		<input id="parts" type="number" placeholder="0" value="0" min="0" max="20"><br>	
+	</form>
+
+	<label for="output">Amount of Money:</label>
+	<input id="output" value="$1000" readonly="true">
+
+	<div id="back">
+		<button class="button" onclick="goToNextPage('simulation.html')">Go to the Simulation!</button>
+	</div>
+
+</body>

@@ -1,0 +1,108 @@
+body {
+   background-color: #FFC72C;
+}
+h1 {
+    text-align: center;
+    font-family: "Courier New", monospace;
+    font-size: 50px;
+}
+form {
+    text-align: center;
+    padding-top: 10px;
+    font-family: "Courier New", monospace;
+    font-size: 25px;
+}
+#div1 {
+    font-family: "Courier New", monospace;
+    text-align: center;
+    padding-top: 30px;
+}
+#instructions {
+    margin-left: 50px;
+    background-color: #004526;
+    margin-right: 50px;
+    color: white;
+}
+#next {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#map {
+    float: right;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#save {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#username {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+div {
+    padding-right: 20px;
+    text-align: center;
+    font-family: "Courier New", monospace;
+}
+.button {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    border-radius: 12px;
+}
+input {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+label {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+    float: center;
+}
+p {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#back {
+    margin-top: 60px;
+    margin-left: 380px;
+}
+#panel {
+    border-color: black;
+    border-style: dashed;
+    font-size: 20px;
+}
+#simButtons {
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+}
+#moneyOutput {
+    margin-top: 20px;
+}
+#or {
+    text-align: center;
+}
+#sim {
+    text-align: center;
+}
+#option1 {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#option2 {
+    font-family: "Courier New", monospace;
+    font-size: 20px;
+}
+#display {
+    float: left;
+    text-align: left;
+}
+#shop {
+    float: up;
+    float: right;
+}
+ #resultOutput {
+	display: none;
+	margin-top: 10px;
+}
