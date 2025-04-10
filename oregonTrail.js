@@ -64,10 +64,6 @@ result2[7] = "You decide to trade some spare parts with the traveler for food. W
 result2[8] = "You take the more dangerous path. There are a few rough spots, but you manage to push through. You save time, but the journey has taken a toll on your health and morale. One of your oxen gets hurt too. ";
 result2[9] = "You continue on despite the fever, hoping to make it to your destination before the weather worsens. It's a risk, but you push through the sickness and manage to get a bit farther.";
 
-function displayResult(result) {
-	document.getElementById("resultOutput").innerHTML = result;
-}
-
 let day = 0;
 let health = 100;
 let milesLeft = 2170;
@@ -76,11 +72,25 @@ let milesTraveled = 0;
 let currentQuestionIndex = 0; // Track the current question
 
 function newQuestion() {
+	var ending = new Array();
+	ending[0] = "You made it to Oregon City. Congratulations on your travels!";
+	ending[1] = "You made it to Fort Hall!";
+	ending[2] = "You made it to Soda Springs.";
+	ending[3] = "You made it to Fort Boise.";
+	ending[4] = "You made it to Independence Rock.";
+	ending[5] = "You are stranded in the middle of the trail. Better Luck next time.";
+	if(currentQuestionIndex == 8)
+	{
+		document.getElementById("question").style.display = "none";
+		document.getElementById("resultOutput").style.display = "none";
+		let end = "";
+		end = ending(milesTraveled, ending);
+		document.getElementById("ending").innerHTML = "endunghdfjksd";
+	}
 	let sim = document.getElementById("sim");
 	let questionText = document.getElementById("questions");
 	let questionArea = document.getElementById("question");
 	let resultOutput = document.getElementById("resultOutput");
-
 	//Show the question and options
 	sim.style.display = "block";
 	questionText.style.display = "block";
@@ -128,12 +138,43 @@ function hideQuestionAndOptions() {
 	document.getElementById("question").style.display = "block";
 }
 
+function ending(milesTraveled, ending)
+{
+	while(health <= 10 || milesTraveled == 2170 || days >= 300)
+	{
+		if(milesTraveled == 2170)
+		{
+			return ending[0];
+		}
+		else if(milesTraveled < 2170 && milesTraveled >= 1160)
+		{
+			return ending[1];
+		}
+		else if(milesTraveled < 1160 && milesTraveled >= 1130)
+		{
+			return ending[2];
+		}
+		else if(milesTraveled < 1130 && milesTraveled >= 900)
+		{
+			return ending[3];
+		}
+		else if(milesTraveled < 900 && milesTraveled >= 500)
+		{
+			return ending[4];
+		}
+		else
+		{
+			return ending[5];
+		}
+	}
+	return "you made it!";
+}
+
 function travel() {
-	//if (milesLeft >= 0 && health > 10 && day <= 365) {
-	milesTraveled += Math.floor(Math.random() * 19);
+	milesTraveled += Math.floor(Math.random() * 56);
 	milesLeft = 2170 - milesTraveled;
-	day += Math.floor(Math.random() * 5);
-	health -= Math.floor(Math.random() * 4);
+	day += Math.floor(Math.random() * 20);
+	health -= Math.floor(Math.random() * 10);
 	document.getElementById("day").innerHTML = "Day: " + day;
 	document.getElementById("health").innerHTML = "Health: " + health;
 	document.getElementById("left").innerHTML = "Miles Left: " + milesLeft;
