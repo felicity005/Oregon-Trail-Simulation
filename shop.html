@@ -20,11 +20,13 @@
 		<input id="wagon" type="number" placeholder="0" value="0" min="0" max="20"><br>
 		<label for="parts">Spare Parts: $50.00</label>
 		<input id="parts" type="number" placeholder="0" value="0" min="0" max="20"><br>	
+		<button class="button" onclick="promptUserInShop()">Update Total</button>
 	</form>
 
 	<label for="output">Amount of Money:</label>
-	<input id="output" value="$1000" readonly="true">
+	<input id="output" type="text" readonly>
 
+	<div id= "shopList"></div>
 	<div id="back">
 		<button class="button" onclick="goToNextPage('simulation.html')">Go to the Simulation!</button>
 	</div>

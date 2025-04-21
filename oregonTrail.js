@@ -188,7 +188,6 @@ function travel() {
 	}*/
 }
 
-//Shop section
 let foodValue = document.querySelector("#food");
 let clothingValue = document.querySelector("#clothing");
 let oxenValue = document.querySelector("#oxen");
@@ -196,46 +195,68 @@ let wagonValue = document.querySelector("#wagon");
 let partsValue = document.querySelector("#parts");
 let moneyValue = document.querySelector("#output");
 
-let totalMoney = 1000; //default amount of money that all players start with
-moneyValue.value = "$" + totalMoney; //money amount is displayed with a dollar sign in front of it
+let totalMoney = 1000; // Starting money
 
-//Allows food quantity and eventually money quantity to respond to user inputs
-foodValue.addEventListener("input", calculateMoney, false);
-clothingValue.addEventListener("input", calculateMoney, false);
-oxenValue.addEventListener("input", calculateMoney, false);
-wagonValue.addEventListener("input", calculateMoney, false);
-partsValue.addEventListener("input", calculateMoney, false);
+// Load previous values from local storage
+window.addEventListener("DOMContentLoaded", () => {
+	let savedData = JSON.parse(localStorage.getItem("shopData"));
+	if (savedData) {
+		foodValue.value = savedData.food;
+		clothingValue.value = savedData.clothing;
+		oxenValue.value = savedData.oxen;
+		wagonValue.value = savedData.wagon;
+		partsValue.value = savedData.parts;
+		totalMoney = savedData.money;
 
-function nameSave() {
-	const username = document.getElementById("username").value;
-	localStorage.setItem("username", username);
-}
-//document.getElementById("nameOutput").innerHTML = "Player: " + (localStorage.getItem("username") || "Unknown Traveler");
+		updateShopDisplay();
+	}
+});
 
-function promptUserInShop() {
-	calculateMoney();
-	moneyValue.value = "$" + money;
-	totalMoney = moneyValue;
-}
-
+// Update total money and display purchases
 function calculateMoney() {
-	// records the number the user changes which can be manipulated to calculate for remaining amount of money
+	let f = Number(foodValue.value);
+	let c = Number(clothingValue.value);
+	let o = Number(oxenValue.value);
+	let w = Number(wagonValue.value);
+	let p = Number(partsValue.value);
+	//to display the amount of all the variables
+	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
+	let remaining = 1000 - spent;
+	
+	totalMoney = remaining; // Update the global money
+	moneyValue.value = "$" + totalMoney;
+
+	let shopData = { // Save to localStorage
+		food: f,
+		clothing: c,
+		oxen: o,
+		wagon: w,
+		parts: p,
+		money: totalMoney
+	};
+	localStorage.setItem("shopData", JSON.stringify(shopData)); //converts the shopData into a string
+
+	updateShopDisplay();
+}
+
+// displays what the user bought
+function updateShopDisplay() {
 	let f = Number(foodValue.value);
 	let c = Number(clothingValue.value);
 	let o = Number(oxenValue.value);
 	let w = Number(wagonValue.value);
 	let p = Number(partsValue.value);
 
-	let totalCost = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p); // calculates money spent
-
-	let remainingMoney = totalMoney - totalCost; // calculates remaining money
-
-	moneyValue.value = "$" + remainingMoney;
-	money = moneyValue; // remaining money displayed after user inputs with a dollar sign in front
-
-	//displays the items the user has bought from the shop
-	let result = "You currently have " + f + " food, " + c + " clothing, " + o + " oxen, " + w + " wagon, and " + p + " spare parts.";
+	let result = `You currently have ${f} food, ${c} clothing, ${o} oxen, ${w} wagon, and ${p} spare parts.`;
 	document.getElementById("shopList").innerHTML = result;
+}
+
+function promptUserInShop() {
+	calculateMoney(); // updates total and localStorage
+}
+
+function displayMoney() {
+	moneyValue.value = "$" + totalMoney;
 }
 
 /*
