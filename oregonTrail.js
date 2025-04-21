@@ -72,21 +72,6 @@ let milesTraveled = 0;
 let currentQuestionIndex = 0; // Track the current question
 
 function newQuestion() {
-	var ending = new Array();
-	ending[0] = "You made it to Oregon City. Congratulations on your travels!";
-	ending[1] = "You made it to Fort Hall!";
-	ending[2] = "You made it to Soda Springs.";
-	ending[3] = "You made it to Fort Boise.";
-	ending[4] = "You made it to Independence Rock.";
-	ending[5] = "You are stranded in the middle of the trail. Better Luck next time.";
-	if(currentQuestionIndex == 8)
-	{
-		document.getElementById("question").style.display = "none";
-		document.getElementById("resultOutput").style.display = "none";
-		let end = "";
-		end = ending(milesTraveled, ending);
-		document.getElementById("ending").innerHTML = "endunghdfjksd";
-	}
 	let sim = document.getElementById("sim");
 	let questionText = document.getElementById("questions");
 	let questionArea = document.getElementById("question");
@@ -104,10 +89,28 @@ function newQuestion() {
 	if (currentQuestionIndex >= questions.length) {
 		currentQuestionIndex = 0;
 	}
-
 	document.getElementById("questions").innerHTML = questions[currentQuestionIndex];
 	document.getElementById("option1").innerHTML = firstOption[currentQuestionIndex];
 	document.getElementById("option2").innerHTML = secondOption[currentQuestionIndex];
+	let endingMessages = [
+        "You made it to Oregon City. Congratulations on your travels!",
+        "You made it to Fort Hall!",
+        "You made it to Soda Springs.",
+        "You made it to Fort Boise.",
+        "You made it to Independence Rock.",
+        "You are stranded in the middle of the trail. Better Luck next time."
+    ];
+	if(currentQuestionIndex == 8)
+	{
+		document.getElementById("question").style.display = "none";
+		document.getElementById("resultOutput").style.display = "none";
+		sim.style.display = "none";
+		questionText.style.display = "none";
+		questionArea.style.display = "none";
+		// Call the ending function and display the result
+        let endMessage = ending(milesTraveled, endingMessages);
+        document.getElementById("ending").innerHTML = endMessage;
+	}
 }
 
 function resultRouting() {
@@ -138,43 +141,39 @@ function hideQuestionAndOptions() {
 	document.getElementById("question").style.display = "block";
 }
 
-function ending(milesTraveled, ending)
+function ending(milesTraveled, endMessages)
 {
-	while(health <= 10 || milesTraveled == 2170 || days >= 300)
-	{
 		if(milesTraveled == 2170)
 		{
-			return ending[0];
+			return endMessages[0];
 		}
 		else if(milesTraveled < 2170 && milesTraveled >= 1160)
 		{
-			return ending[1];
+			return endMessages[1];
 		}
 		else if(milesTraveled < 1160 && milesTraveled >= 1130)
 		{
-			return ending[2];
+			return endMessages[2];
 		}
 		else if(milesTraveled < 1130 && milesTraveled >= 900)
 		{
-			return ending[3];
+			return endMessages[3];
 		}
 		else if(milesTraveled < 900 && milesTraveled >= 500)
 		{
-			return ending[4];
+			return endMessages[4];
 		}
 		else
 		{
-			return ending[5];
+			return endMessages[5];
 		}
-	}
-	return "you made it!";
 }
 
 function travel() {
-	milesTraveled += Math.floor(Math.random() * 56);
+	milesTraveled += Math.floor(Math.random() * 100);
 	milesLeft = 2170 - milesTraveled;
-	day += Math.floor(Math.random() * 20);
-	health -= Math.floor(Math.random() * 10);
+	day += Math.floor(Math.random() * 25);
+	health -= Math.floor(Math.random() * 14);
 	document.getElementById("day").innerHTML = "Day: " + day;
 	document.getElementById("health").innerHTML = "Health: " + health;
 	document.getElementById("left").innerHTML = "Miles Left: " + milesLeft;
@@ -184,8 +183,7 @@ function travel() {
 	localStorage.setItem("health", health);
 	localStorage.setItem("milesLeft", milesLeft);
 	localStorage.setItem("milesTraveled", milesTraveled);
-	/*}
-	else {
+	/*if(food == 0) {
 		alert("You are out of food! Go buy more materials from the shop.");
 	}*/
 }
