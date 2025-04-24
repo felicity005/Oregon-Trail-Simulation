@@ -165,9 +165,9 @@ function travel() {
 	const keywords = ["river", "sick", "hostile", "influenza"];
 	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
 
-	let randomMiles = Math.floor(Math.random() * 200);
-	let randomDays = Math.floor(Math.random() * 20);
-	let randomHealthLoss = Math.floor(Math.random() * 20) - amount;
+	let randomMiles = Math.floor(Math.random() * 300);
+	let randomDays = Math.floor(Math.random() * 35);
+	let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
 
 	milesTraveled += randomMiles;
 	milesLeft = 2170 - milesTraveled;
@@ -202,7 +202,7 @@ function saveGameState() {
 function loadGameState() {
 	const saved = localStorage.getItem("oregonTrailGameState");
 	if (saved) {
-		const state = JSON.parse(saved);
+		const state = JSON.parse(saved); //parse the thing ypou want to save
 		day = state.day || 0;
 		health = state.health || 100;
 		milesLeft = state.milesLeft || 2170;
@@ -216,14 +216,20 @@ function loadGameState() {
 
 function applyEffectsFromQuestion(keywords, questionText) {
 	let lowerCaseQuestion = questionText.toLowerCase();
-
+	let found = false;
 	for (let i = 0; i < keywords.length; i++) {
-		if (lowerCaseQuestion.includes(keywords[i].toLowerCase())) {
-			return health > 0 ? -40 : 10;
+		if (lowerCaseQuestion.substring(i,keywords.length + i) == true && health > 0 && health <= 100) {
+			found = true;
 		}
 	}
-	return 10;
+	if (found == true) {
+		return -40;
+	}
+	else {
+		return 10;
+	}
 }
+
 
 let foodValue = document.querySelector("#food");
 let clothingValue = document.querySelector("#clothing");
@@ -300,22 +306,3 @@ window.onload = function () {
 	newQuestion();
 };
 
-/*
-<div id="display">
-		<p>Amount of money remaining: </p>
-		<p id="money"></p>
-		<p id="food"></p>
-		<p id="clothing"></p>
-		<p id="oxen"></p>
-		<p id="wagon"></p>
-		<p id="parts"></p>
-	</div>
-	<script>
-		document.getElementById("money").innerHTML = "$" + money;
-		document.getElementById("food").innerHTML = "Food: " + food;
-		document.getElementById("clothing").innerHTML = "Clothing: " + clothing;
-		document.getElementById("oxen").innerHTML = "Oxen: " + oxen;
-		document.getElementById("wagon").innerHTML = "Wagon: " + wagon;
-		document.getElementById("parts").innerHTML = "Spare Parts: " + parts;
-	</script>
-*/
