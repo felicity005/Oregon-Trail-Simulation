@@ -67,7 +67,6 @@ let day = 0;
 let health = 100;
 let milesLeft = 2170;
 let milesTraveled = 0;
-let simDisplay = "";
 
 let currentQuestionIndex = 0; // Track the current question
 
@@ -165,18 +164,23 @@ function travel() {
 	const keywords = ["river", "sick", "hostile", "influenza"];
 	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
 
-	let randomMiles = Math.floor(Math.random() * 300);
-	let randomDays = Math.floor(Math.random() * 35);
-	let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
+	let randomMiles = Math.floor(Math.random() * 350);
+	let randomDays = Math.floor(Math.random() * 40);
+	let randomHealthLoss = Math.floor(Math.random() * 35) - amount;
 
 	milesTraveled += randomMiles;
 	milesLeft = 2170 - milesTraveled;
 
 	day += randomDays;
-	if (day > 365) day = 365;
-
+	if (day > 365){
+		day = 365;
+		alert("You have reached day 365.")
+	}
 	health -= randomHealthLoss;
-	if (health < 0) health = 0;
+	if (health < 0){
+		health = 0;
+		alert("Your health is at 0.")
+	}
 
 	updateDisplay();
 	saveGameState();
@@ -223,7 +227,7 @@ function applyEffectsFromQuestion(keywords, questionText) {
 		}
 	}
 	if (found == true) {
-		return -40;
+		return -30;
 	}
 	else {
 		return 10;
@@ -290,7 +294,6 @@ function updateShopDisplay() {
 
 	let result = `You currently have ${f} food, ${c} clothing, ${o} oxen, ${w} wagon, and ${p} spare parts.`;
 	document.getElementById("shopList").innerHTML = result;
-	simDisplay = result;
 }
 
 function nameSave() {
