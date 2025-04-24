@@ -1,6 +1,5 @@
 function goToNextPage(nextPage) {
 	window.location.href = nextPage;
-	location.replace(nextPage);
 }
 
 //Simulation questions and answers section
@@ -68,6 +67,7 @@ let day = 0;
 let health = 100;
 let milesLeft = 2170;
 let milesTraveled = 0;
+let simDisplay = "";
 
 let currentQuestionIndex = 0; // Track the current question
 
@@ -93,23 +93,22 @@ function newQuestion() {
 	document.getElementById("option1").innerHTML = firstOption[currentQuestionIndex];
 	document.getElementById("option2").innerHTML = secondOption[currentQuestionIndex];
 	let endingMessages = [
-        "You made it to Oregon City. Congratulations on your travels!",
-        "You made it to Fort Hall!",
-        "You made it to Soda Springs.",
-        "You made it to Fort Boise.",
-        "You made it to Independence Rock.",
-        "You are stranded in the middle of the trail. Better Luck next time."
-    ];
-	if(currentQuestionIndex == 8)
-	{
+		"You made it to Oregon City. Congratulations on your travels!",
+		"You made it to Fort Hall!",
+		"You made it to Soda Springs.",
+		"You made it to Fort Boise.",
+		"You made it to Independence Rock.",
+		"You are stranded in the middle of the trail. Better Luck next time."
+	];
+	if (currentQuestionIndex == 8) {
 		document.getElementById("question").style.display = "none";
 		document.getElementById("resultOutput").style.display = "none";
 		sim.style.display = "none";
 		questionText.style.display = "none";
 		questionArea.style.display = "none";
 		// Call the ending function and display the result
-        let endMessage = ending(milesTraveled, endingMessages);
-        document.getElementById("ending").innerHTML = endMessage;
+		let endMessage = ending(milesTraveled, endingMessages);
+		document.getElementById("ending").innerHTML = endMessage;
 	}
 }
 
@@ -141,51 +140,89 @@ function hideQuestionAndOptions() {
 	document.getElementById("question").style.display = "block";
 }
 
-function ending(milesTraveled, endMessages)
-{
-		if(milesTraveled == 2170)
-		{
-			return endMessages[0];
-		}
-		else if(milesTraveled < 2170 && milesTraveled >= 1160)
-		{
-			return endMessages[1];
-		}
-		else if(milesTraveled < 1160 && milesTraveled >= 1130)
-		{
-			return endMessages[2];
-		}
-		else if(milesTraveled < 1130 && milesTraveled >= 900)
-		{
-			return endMessages[3];
-		}
-		else if(milesTraveled < 900 && milesTraveled >= 500)
-		{
-			return endMessages[4];
-		}
-		else
-		{
-			return endMessages[5];
-		}
+function ending(milesTraveled, endMessages) {
+	if (milesTraveled == 2170) {
+		return endMessages[0];
+	}
+	else if (milesTraveled < 2170 && milesTraveled >= 1160) {
+		return endMessages[1];
+	}
+	else if (milesTraveled < 1160 && milesTraveled >= 1130) {
+		return endMessages[2];
+	}
+	else if (milesTraveled < 1130 && milesTraveled >= 900) {
+		return endMessages[3];
+	}
+	else if (milesTraveled < 900 && milesTraveled >= 500) {
+		return endMessages[4];
+	}
+	else {
+		return endMessages[5];
+	}
 }
 
 function travel() {
-	milesTraveled += Math.floor(Math.random() * 100);
+	const keywords = ["river", "sick", "hostile", "influenza"];
+	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
+
+	let randomMiles = Math.floor(Math.random() * 200);
+	let randomDays = Math.floor(Math.random() * 20);
+	let randomHealthLoss = Math.floor(Math.random() * 20) - amount;
+
+	milesTraveled += randomMiles;
 	milesLeft = 2170 - milesTraveled;
-	day += Math.floor(Math.random() * 25);
-	health -= Math.floor(Math.random() * 14);
+
+	day += randomDays;
+	if (day > 365) day = 365;
+
+	health -= randomHealthLoss;
+	if (health < 0) health = 0;
+
+	updateDisplay();
+	saveGameState();
+}
+
+function updateDisplay() {
 	document.getElementById("day").innerHTML = "Day: " + day;
 	document.getElementById("health").innerHTML = "Health: " + health;
 	document.getElementById("left").innerHTML = "Miles Left: " + milesLeft;
 	document.getElementById("traveled").innerHTML = "Miles Traveled: " + milesTraveled;
+}
 
-	localStorage.setItem("day", day);
-	localStorage.setItem("health", health);
-	localStorage.setItem("milesLeft", milesLeft);
-	localStorage.setItem("milesTraveled", milesTraveled);
-	/*if(food == 0) {
-		alert("You are out of food! Go buy more materials from the shop.");
-	}*/
+function saveGameState() {
+	const state = {
+		day,
+		health,
+		milesLeft,
+		milesTraveled
+	};
+	localStorage.setItem("oregonTrailGameState", JSON.stringify(state));
+}
+
+function loadGameState() {
+	const saved = localStorage.getItem("oregonTrailGameState");
+	if (saved) {
+		const state = JSON.parse(saved);
+		day = state.day || 0;
+		health = state.health || 100;
+		milesLeft = state.milesLeft || 2170;
+		milesTraveled = state.milesTraveled || 0;
+
+		if (day > 365) day = 365;
+		if (health < 0) health = 0;
+	}
+	updateDisplay();
+}
+
+function applyEffectsFromQuestion(keywords, questionText) {
+	let lowerCaseQuestion = questionText.toLowerCase();
+
+	for (let i = 0; i < keywords.length; i++) {
+		if (lowerCaseQuestion.includes(keywords[i].toLowerCase())) {
+			return health > 0 ? -40 : 10;
+		}
+	}
+	return 10;
 }
 
 let foodValue = document.querySelector("#food");
@@ -193,12 +230,11 @@ let clothingValue = document.querySelector("#clothing");
 let oxenValue = document.querySelector("#oxen");
 let wagonValue = document.querySelector("#wagon");
 let partsValue = document.querySelector("#parts");
-let moneyValue = document.querySelector("#output");
 
 let totalMoney = 1000; // Starting money
 
 // Load previous values from local storage
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", () => { // checks to make sure all events have been loaded
 	let savedData = JSON.parse(localStorage.getItem("shopData"));
 	if (savedData) {
 		foodValue.value = savedData.food;
@@ -222,11 +258,10 @@ function calculateMoney() {
 	//to display the amount of all the variables
 	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
 	let remaining = 1000 - spent;
-	
-	totalMoney = remaining; // Update the global money
-	moneyValue.value = "$" + totalMoney;
 
-	let shopData = { // Save to localStorage
+	totalMoney = remaining; // Update the global money
+
+	let shopData = { // extract values from objects and assign to variables to save to localStorage
 		food: f,
 		clothing: c,
 		oxen: o,
@@ -249,15 +284,21 @@ function updateShopDisplay() {
 
 	let result = `You currently have ${f} food, ${c} clothing, ${o} oxen, ${w} wagon, and ${p} spare parts.`;
 	document.getElementById("shopList").innerHTML = result;
+	simDisplay = result;
 }
 
-function promptUserInShop() {
-	calculateMoney(); // updates total and localStorage
+function nameSave() {
+	const username = document.getElementById("username").value;
+	localStorage.setItem("username", username);
+	document.getElementById("nameOutput").innerHTML = "Player: " + (localStorage.getItem("username") || "Unknown Traveler");
 }
 
-function displayMoney() {
-	moneyValue.value = "$" + totalMoney;
-}
+window.onload = function () {
+	loadGameState();
+	updateDisplay();
+	resultRouting();
+	newQuestion();
+};
 
 /*
 <div id="display">
