@@ -69,16 +69,21 @@ let milesLeft = 2170;
 let milesTraveled = 0;
 
 let currentQuestionIndex = 0; // Track the current question
+let randomNum = Math.floor(Math.random() * 6) + 3;
 
 function newQuestion() {
 	let sim = document.getElementById("sim");
 	let questionText = document.getElementById("questions");
 	let questionArea = document.getElementById("question");
 	let resultOutput = document.getElementById("resultOutput");
+	let button1 = document.getElementById("option1");
+	let button2 = document.getElementById("option2");
 	//Show the question and options
 	sim.style.display = "block";
 	questionText.style.display = "block";
 	questionArea.style.display = "block";
+	button1.style.display = "block";
+	button2.style.display = "block";
 
 	//Hide the result output when asking a new question
 	resultOutput.innerHTML = "";
@@ -90,6 +95,7 @@ function newQuestion() {
 	}
 	document.getElementById("questions").innerHTML = questions[currentQuestionIndex];
 	document.getElementById("option1").innerHTML = firstOption[currentQuestionIndex];
+	document.getElementById("or").innerHTML = "or";
 	document.getElementById("option2").innerHTML = secondOption[currentQuestionIndex];
 	let endingMessages = [
 		"You made it to Oregon City. Congratulations on your travels!",
@@ -99,7 +105,7 @@ function newQuestion() {
 		"You made it to Independence Rock.",
 		"You are stranded in the middle of the trail. Better Luck next time."
 	];
-	if (currentQuestionIndex == 8) {
+	if (currentQuestionIndex == randomNum) {
 		document.getElementById("question").style.display = "none";
 		document.getElementById("resultOutput").style.display = "none";
 		sim.style.display = "none";
@@ -117,6 +123,7 @@ function resultRouting() {
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
+		updateShopDisplay()
 	};
 
 	document.getElementById("option2").onclick = function () {
@@ -124,6 +131,7 @@ function resultRouting() {
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
+		updateShopDisplay()
 	};
 }
 
@@ -234,7 +242,6 @@ function applyEffectsFromQuestion(keywords, questionText) {
 	}
 }
 
-
 let foodValue = document.querySelector("#food");
 let clothingValue = document.querySelector("#clothing");
 let oxenValue = document.querySelector("#oxen");
@@ -294,6 +301,7 @@ function updateShopDisplay() {
 
 	let result = `You currently have ${f} food, ${c} clothing, ${o} oxen, ${w} wagon, and ${p} spare parts.`;
 	document.getElementById("shopList").innerHTML = result;
+	document.getElementById("resultL").innerHTML = result;
 }
 
 function nameSave() {
@@ -308,4 +316,3 @@ window.onload = function () {
 	resultRouting();
 	newQuestion();
 };
-
