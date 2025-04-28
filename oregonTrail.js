@@ -290,28 +290,27 @@ function saveGameState() {
 		day,
 		health,
 		milesLeft,
-		milesTraveled
+		milesTraveled,
+		money: totalMoney // Save money as part of the main game state
 	};
-	localStorage.setItem("state", JSON.stringify(state));
-	localStorage.setItem("day", day);
-	localStorage.setItem("health", health);
-	localStorage.setItem("milesLeft", milesLeft);
-	localStorage.setItem("milesTraveled", milesTraveled);
+	localStorage.setItem("oregonTrailGameState", JSON.stringify(state));
 }
 
 function loadGameState() {
 	const saved = localStorage.getItem("oregonTrailGameState");
 	if (saved) {
-		const state = JSON.parse(saved); //parse the thing ypou want to save
+		const state = JSON.parse(saved);
 		day = state.day || 0;
 		health = state.health || 100;
 		milesLeft = state.milesLeft || 2170;
 		milesTraveled = state.milesTraveled || 0;
+		totalMoney = state.money !== undefined ? state.money : 1000;
 
 		if (day > 365) day = 365;
 		if (health < 0) health = 0;
 	}
 	updateDisplay();
+	updateShopDisplay();
 }
 
 function applyEffectsFromQuestion(keywords, questionText) {
@@ -367,43 +366,75 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Update total money and display purchases
 function calculateMoney() {
-	let f = Number(foodValue.value);
-	let c = Number(clothingValue.value);
-	let o = Number(oxenValue.value);
-	let w = Number(wagonValue.value);
-	let p = Number(partsValue.value);
+    // New purchase input amounts
+    let f = Number(foodValue.value);
+    let c = Number(clothingValue.value);
+    let o = Number(oxenValue.value);
+    let w = Number(wagonValue.value);
+    let p = Number(partsValue.value);
 
-	// Calculate the total cost of the selected items
-	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
+    // Calculate cost of new purchase
+    let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
 
-	// Check if the user has enough money
-	if (spent > totalMoney) {
-		alert("You don't have enough money to make that purchase.");
-		return;  // Exit the function without proceeding
-	}
+    if (spent > totalMoney) {
+        alert("You don't have enough money to make that purchase.");
+        return; // Exit if not enough money
+    }
 
-	// Subtract the total spent from the total money
-	totalMoney -= spent;
+    // Subtract money
+    totalMoney -= spent;
 
-	// Save data to local storage
-	let shopData = {
-		food: f,
-		clothing: c,
-		oxen: o,
-		wagon: w,
-		parts: p,
-		money: totalMoney
-	};
-	localStorage.setItem("shopData", JSON.stringify(shopData));
-	localStorage.setItem("money", totalMoney);
+    // Get previous shopData or initialize if none
+    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0
+    };
 
-	updateShopDisplay();  // Update the shop display
+    // Add new purchases to existing inventory
+    savedData.food += f;
+    savedData.clothing += c;
+    savedData.oxen += o;
+    savedData.wagon += w;
+    savedData.parts += p;
+    savedData.money = totalMoney;
+
+    // Save updated inventory
+    localStorage.setItem("shopData", JSON.stringify(savedData));
+    localStorage.setItem("money", totalMoney);
+
+    // Clear inputs after purchase
+    foodValue.value = 0;
+    clothingValue.value = 0;
+    oxenValue.value = 0;
+    wagonValue.value = 0;
+    partsValue.value = 0;
+
+    updateShopDisplay();
 }
 
+let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+	food: 0,
+	clothing: 0,
+	oxen: 0,
+	wagon: 0,
+	parts: 0,
+	money: 1000
+};
 // Update the shop display
 function updateShopDisplay() {
-	document.getElementById("shopList").innerHTML = `You currently have ${foodValue.value} food, ${clothingValue.value} clothing, ${oxenValue.value} oxen, ${wagonValue.value} wagon, and ${partsValue.value} spare parts.`;
-	document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
+    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0
+    };
+
+    document.getElementById("shopList").innerHTML = `You currently have ${savedData.food} food, ${savedData.clothing} clothing, ${savedData.oxen} oxen, ${savedData.wagon} wagon, and ${savedData.parts} spare parts.`;
+    document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
 }
 
 // Prevent form submission when clicking the button and calculate the money
@@ -457,12 +488,6 @@ function restartGame() {
 	window.location.href = "index.html";
 }
 
-function checkHealth() {
-	if (health <= 0) { // Show the restart button when health reaches 0
-		document.getElementById("restartButton").style.display = "block";
-	}
-}
-
 function updateFood(result) {
 	let newResult = result.toLowerCase();  // converts answer choice to lowercase
 
@@ -506,3 +531,30 @@ function updateParts(result) {
 		}
 	}
 }
+
+function startNewGame() {
+    localStorage.setItem("newGame", "true");
+    location.reload(); // Reload the page to trigger the reset
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if player wants a NEW GAME
+    let newGame = localStorage.getItem("newGame");
+
+    if (newGame === "true") {
+        // Reset money
+        totalMoney = 1000;
+        localStorage.setItem("money", totalMoney);
+
+        // Reset shop data too if needed
+        localStorage.removeItem("shopData");
+
+        // Turn off newGame flag
+        localStorage.setItem("newGame", "false");
+    } else {
+        // Continue from saved money
+        totalMoney = Number(localStorage.getItem("money")) || 1600;
+    }
+
+    updateShopDisplay();
+});
