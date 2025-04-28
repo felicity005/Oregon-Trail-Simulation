@@ -113,14 +113,13 @@ result2[17] = "You bandage the ankle and move slowly. Your ankle pains a lot, bu
 result2[18] = "You move on without buying anything.You don’t know if this decision will come back to bite you.";
 result2[19] = "You find some berries to eat. It helps a bit, but there is still not enough food to fully feed everyone.";
 
-let endingMessages = [
-	"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits!",
-	"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie. You decide to stop there, content with where you have reached, and hope to make another trip to reach Oregon soon.",
-	"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail. You decide you want to stay there forever.",
-	"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost. You find a new home there.",
-	"You made it to Independence Rock. A landmark that signifies the midway point of your journey. As you stand before it, you can almost feel the gaze of all the previous travellers weighing on you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land. You carve your name on it too.",
-	"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
-];
+var endingMessages = new Array();
+	endingMessages[0] = "After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits!",
+	endingMessages[1] = "You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie. You decide to stop there, content with where you have reached, and hope to make another trip to reach Oregon soon.",
+	endingMessages[2] = "You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail. You decide you want to stay there forever.",
+	endingMessages[3] = "You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost. You find a new home there.",
+	endingMessages[4] = "You made it to Independence Rock. A landmark that signifies the midway point of your journey. As you stand before it, you can almost feel the gaze of all the previous travellers weighing on you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land. You carve your name on it too.",
+	endingMessages[5] = "Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
 
 let day = 0;
 let health = 100;
@@ -171,8 +170,10 @@ function newQuestion() {
 function resultRouting() {
 	document.getElementById("option1").onclick = function () {
 		let result = result1[currentQuestionIndex];
-		showResult(result); // Show result
-		updateInventory(result); // <--- NEW function to adjust inventory
+		showResult(result);
+		updateFood(result);
+		updateOx(result); 
+		updateParts(result); 
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
@@ -181,8 +182,10 @@ function resultRouting() {
 
 	document.getElementById("option2").onclick = function () {
 		let result = result2[currentQuestionIndex];
-		showResult(result); // Show result
-		updateInventory(result); // <--- NEW function to adjust inventory
+		showResult(result);
+		updateFood(result);
+		updateOx(result); 
+		updateParts(result);
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
@@ -194,10 +197,6 @@ function updateInventory(result) {
 	updateFood(result);
 	updateOx(result);
 	updateParts(result);
-	saveInventory();
-}
-
-function saveInventory() {
 	localStorage.setItem("shopData", JSON.stringify(savedData));
 }
 
@@ -241,30 +240,22 @@ function travel() {
 	let randomMiles = Math.floor(Math.random() * 350);
 	let randomDays = Math.floor(Math.random() * 40);
 	let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
-	let endMessage = ending(milesTraveled)
+	let endMessage = ending(milesTraveled);
 
 	milesTraveled += randomMiles;
+	if (milesTraveled > 2170) {
+		milesTraveled = 2170;
+	}
+
 	milesLeft = 2170 - milesTraveled;
+	if (milesLeft < 0) {
+		milesLeft = 0;
+	}
 
 	day += randomDays;
 	if (day > 365) {
 		day = 365;
 		alert("You have reached day 365.");
-	}
-
-	if (milesLeft <= 0) {
-		document.getElementById("sim").style.display = "none";
-		document.getElementById("questions").style.display = "none";
-		document.getElementById("question").style.display = "none";
-		document.getElementById("resultOutput").style.display = "none";
-
-		document.getElementById("left").innerHTML = "Miles Left: 0";
-		document.getElementById("traveled").innerHTML = "Miles Traveled: 2170";
-
-		document.getElementById("ending").innerHTML = endMessage;
-
-		document.getElementById("option1").disabled = true;
-		document.getElementById("option2").disabled = true;
 	}
 
 	health -= randomHealthLoss;
@@ -285,7 +276,7 @@ function travel() {
 		document.getElementById("option2").disabled = true;
 		createFinishButton();
 
-		return; // travel function will break
+		return;
 	}
 
 	updateDisplay();
@@ -380,53 +371,53 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Update total money and display purchases
 function calculateMoney() {
-    // New purchase input amounts
-    let f = Number(foodValue.value);
-    let c = Number(clothingValue.value);
-    let o = Number(oxenValue.value);
-    let w = Number(wagonValue.value);
-    let p = Number(partsValue.value);
+	// New purchase input amounts
+	let f = Number(foodValue.value);
+	let c = Number(clothingValue.value);
+	let o = Number(oxenValue.value);
+	let w = Number(wagonValue.value);
+	let p = Number(partsValue.value);
 
-    // Calculate cost of new purchase
-    let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
+	// Calculate cost of new purchase
+	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
 
-    if (spent > totalMoney) {
-        alert("You don't have enough money to make that purchase.");
-        return; // Exit if not enough money
-    }
+	if (spent > totalMoney) {
+		alert("You don't have enough money to make that purchase.");
+		return; // Exit if not enough money
+	}
 
-    // Subtract money
-    totalMoney -= spent;
+	// Subtract money
+	totalMoney -= spent;
 
-    // Get previous shopData or initialize if none
-    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-        food: 0,
-        clothing: 0,
-        oxen: 0,
-        wagon: 0,
-        parts: 0
-    };
+	// Get previous shopData or initialize if none
+	let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+		food: 0,
+		clothing: 0,
+		oxen: 0,
+		wagon: 0,
+		parts: 0
+	};
 
-    // Add new purchases to existing inventory
-    savedData.food += f;
-    savedData.clothing += c;
-    savedData.oxen += o;
-    savedData.wagon += w;
-    savedData.parts += p;
-    savedData.money = totalMoney;
+	// Add new purchases to existing inventory
+	savedData.food += f;
+	savedData.clothing += c;
+	savedData.oxen += o;
+	savedData.wagon += w;
+	savedData.parts += p;
+	savedData.money = totalMoney;
 
-    // Save updated inventory
-    localStorage.setItem("shopData", JSON.stringify(savedData));
-    localStorage.setItem("money", totalMoney);
+	// Save updated inventory
+	localStorage.setItem("shopData", JSON.stringify(savedData));
+	localStorage.setItem("money", totalMoney);
 
-    // Clear inputs after purchase
-    foodValue.value = 0;
-    clothingValue.value = 0;
-    oxenValue.value = 0;
-    wagonValue.value = 0;
-    partsValue.value = 0;
+	// Clear inputs after purchase
+	foodValue.value = 0;
+	clothingValue.value = 0;
+	oxenValue.value = 0;
+	wagonValue.value = 0;
+	partsValue.value = 0;
 
-    updateShopDisplay();
+	updateShopDisplay();
 }
 
 let savedData = JSON.parse(localStorage.getItem("shopData")) || {
@@ -439,16 +430,16 @@ let savedData = JSON.parse(localStorage.getItem("shopData")) || {
 };
 // Update the shop display
 function updateShopDisplay() {
-    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-        food: 0,
-        clothing: 0,
-        oxen: 0,
-        wagon: 0,
-        parts: 0
-    };
+	let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+		food: 0,
+		clothing: 0,
+		oxen: 0,
+		wagon: 0,
+		parts: 0
+	};
 
-    document.getElementById("shopList").innerHTML = `You currently have ${savedData.food} food, ${savedData.clothing} clothing, ${savedData.oxen} oxen, ${savedData.wagon} wagon, and ${savedData.parts} spare parts.`;
-    document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
+	document.getElementById("shopList").innerHTML = `You currently have ${savedData.food} food, ${savedData.clothing} clothing, ${savedData.oxen} oxen, ${savedData.wagon} wagon, and ${savedData.parts} spare parts.`;
+	document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
 }
 
 // Prevent form submission when clicking the button and calculate the money
@@ -531,28 +522,29 @@ function updateParts(result) {
 }
 
 function startNewGame() {
-    localStorage.setItem("newGame", "true");
-    location.reload(); // Reload the page to trigger the reset
+	alert("Please make sure to buy new items after starting a new game.")
+	localStorage.setItem("newGame", "true");
+	location.reload(); // Reload the page to trigger the reset
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Check if player wants a NEW GAME
-    let newGame = localStorage.getItem("newGame");
+	// Check if player wants a NEW GAME
+	let newGame = localStorage.getItem("newGame");
 
-    if (newGame === "true") {
-        // Reset money
-        totalMoney = 1000;
-        localStorage.setItem("money", totalMoney);
+	if (newGame === "true") {
+		// Reset money
+		totalMoney = 1000;
+		localStorage.setItem("money", totalMoney);
 
-        // Reset shop data too if needed
-        localStorage.removeItem("shopData");
+		// Reset shop data too if needed
+		localStorage.removeItem("shopData");
 
-        // Turn off newGame flag
-        localStorage.setItem("newGame", "false");
-    } else {
-        // Continue from saved money
-        totalMoney = Number(localStorage.getItem("money")) || 1600;
-    }
+		// Turn off newGame flag
+		localStorage.setItem("newGame", "false");
+	} else {
+		// Continue from saved money
+		totalMoney = Number(localStorage.getItem("money")) || 1600;
+	}
 
-    updateShopDisplay();
+	updateShopDisplay();
 });
