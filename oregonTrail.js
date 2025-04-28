@@ -122,7 +122,6 @@ let endingMessages = [
 	"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
 ];
 
-
 let day = 0;
 let health = 100;
 let milesLeft = 2170;
@@ -171,20 +170,35 @@ function newQuestion() {
 
 function resultRouting() {
 	document.getElementById("option1").onclick = function () {
-		showResult(result1[currentQuestionIndex]); //Displays the designated result for the choice chosen
+		let result = result1[currentQuestionIndex];
+		showResult(result); // Show result
+		updateInventory(result); // <--- NEW function to adjust inventory
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
-		updateShopDisplay()
+		updateShopDisplay();
 	};
 
 	document.getElementById("option2").onclick = function () {
-		showResult(result2[currentQuestionIndex]); //Displays the designated result for the choice chosen
+		let result = result2[currentQuestionIndex];
+		showResult(result); // Show result
+		updateInventory(result); // <--- NEW function to adjust inventory
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
-		updateShopDisplay()
+		updateShopDisplay();
 	};
+}
+
+function updateInventory(result) {
+	updateFood(result);
+	updateOx(result);
+	updateParts(result);
+	saveInventory();
+}
+
+function saveInventory() {
+	localStorage.setItem("shopData", JSON.stringify(savedData));
 }
 
 function showResult(result) {
@@ -449,7 +463,6 @@ function nameSave() {
 	document.getElementById("nameOutput").innerHTML = "Player: " + (localStorage.getItem("username") || "Unknown Traveler");
 }
 
-
 function createFinishButton() {
 	let finishButton = document.createElement("button");   // Create button to finish task
 	finishButton.innerHTML = "Play Again";
@@ -489,46 +502,31 @@ function restartGame() {
 }
 
 function updateFood(result) {
-	let newResult = result.toLowerCase();  // converts answer choice to lowercase
-
-	for (let i = 0; i < newResult.length - 3; i++) {
-		let word = newResult.substring(i, i + 4);  // 4 letter substring
-
-		if (word == "food") {
-			savedData.food = savedData.food - 1;  // decrease food count
-		}
-		if (word == "meal") {
-			savedData.food = savedData.food + 1;  // increase food count
-		}
+	let text = result.toLowerCase();
+	if (text.includes("lose food")) {
+		savedData.food = Math.max(0, savedData.food - 1); // Prevent negative
+	}
+	if (text.includes("gain food") || text.includes("meal")) {
+		savedData.food += 1;
 	}
 }
-
 function updateOx(result) {
-	let newResult = result.toLowerCase();  // converts answer choice to lowercase
-
-	for (let i = 0; i < newResult.length - 1; i++) { // Check for "ox" in the result string
-		let word = newResult.substring(i, i + 2);
-		if (word == "ox") {
-			savedData.oxen = savedData.oxen - 1;  // decrease oxen count
-		}
+	let text = result.toLowerCase();
+	if (text.includes("lose ox") || text.includes("oxen died") || text.includes("stolen ox")) {
+		savedData.oxen = Math.max(0, savedData.oxen - 1);
 	}
-
-	for (let i = 0; i < newResult.length - 10; i++) { // Check for "take the ox" in the result string
-		let phrase = newResult.substring(i, i + 11);
-		if (phrase == "take the ox") {
-			savedData.oxen = savedData.oxen + 1;  // increase oxen count
-		}
+	if (text.includes("gain ox") || text.includes("find ox") || text.includes("take the ox")) {
+		savedData.oxen += 1;
 	}
 }
 
 function updateParts(result) {
-	let newResult = result.toLowerCase();  // converts answer choice to lowercase
-
-	for (let i = 0; i < newResult.length - 4; i++) { // Check for "parts" in the result string
-		let word = newResult.substring(i, i + 5);
-		if (word == "parts") {
-			savedData.parts = savedData.parts - 1;  // decrease spare parts count
-		}
+	let text = result.toLowerCase();
+	if (text.includes("lose part") || text.includes("wagon broke") || text.includes("lost parts")) {
+		savedData.parts = Math.max(0, savedData.parts - 1);
+	}
+	if (text.includes("gain part") || text.includes("found parts")) {
+		savedData.parts += 1;
 	}
 }
 
