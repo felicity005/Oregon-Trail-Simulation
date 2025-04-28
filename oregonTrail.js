@@ -98,12 +98,12 @@ function newQuestion() {
 	document.getElementById("or").innerHTML = "or";
 	document.getElementById("option2").innerHTML = secondOption[currentQuestionIndex];
 	let endingMessages = [
-		"You made it to Oregon City. Congratulations on your travels!",
-		"You made it to Fort Hall!",
-		"You made it to Soda Springs.",
-		"You made it to Fort Boise.",
-		"You made it to Independence Rock.",
-		"You are stranded in the middle of the trail. Better Luck next time."
+		"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits your future adventures!",
+		"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived at Fort Hall. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie.",
+		"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail.",
+		"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost.",
+		"You made it to Independence Rock. A landmark that signifies the midway point of your journey. The rock is more than just a rock, it's a symbol of the hope and determination that every pioneer shared along the trail. As you stand before it, you can almost feel the weight of history pressing against you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land.",
+		"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless in the middle of the trail, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Every traveler faces hardship, and while this chapter ends here, there’s always the chance to rise again. Better luck next time, Traveler."
 	];
 	if (currentQuestionIndex == randomNum) {
 		document.getElementById("question").style.display = "none";
@@ -180,12 +180,12 @@ function travel() {
 	milesLeft = 2170 - milesTraveled;
 
 	day += randomDays;
-	if (day > 365){
+	if (day > 365) {
 		day = 365;
 		alert("You have reached day 365.")
 	}
 	health -= randomHealthLoss;
-	if (health < 0){
+	if (health < 0) {
 		health = 0;
 		alert("Your health is at 0.")
 	}
@@ -230,15 +230,15 @@ function applyEffectsFromQuestion(keywords, questionText) {
 	let lowerCaseQuestion = questionText.toLowerCase();
 	let found = false;
 	for (let i = 0; i < keywords.length; i++) {
-		if (lowerCaseQuestion.substring(i,keywords.length + i) == true && health > 0 && health <= 100) {
-			found = true;
+		if (lowerCaseQuestion.includes(keywords[i])) { // use includes!
+			found = true; // found a dangerous keyword
 		}
 	}
 	if (found == true) {
-		return -30;
+		return -25;
 	}
 	else {
-		return 10;
+		return 10; // no keywords found, healthy event
 	}
 }
 
@@ -250,8 +250,8 @@ let partsValue = document.querySelector("#parts");
 
 let totalMoney = 1000; // Starting money
 
-// Load previous values from local storage
-window.addEventListener("DOMContentLoaded", () => { // checks to make sure all events have been loaded
+// Load the money value and update the display when the page loads
+window.addEventListener("DOMContentLoaded", () => {
 	let savedData = JSON.parse(localStorage.getItem("shopData"));
 	if (savedData) {
 		foodValue.value = savedData.food;
@@ -260,8 +260,21 @@ window.addEventListener("DOMContentLoaded", () => { // checks to make sure all e
 		wagonValue.value = savedData.wagon;
 		partsValue.value = savedData.parts;
 		totalMoney = savedData.money;
-
 		updateShopDisplay();
+	}
+
+	// Load saved name and money
+	const savedName = localStorage.getItem("username");
+	if (savedName) {
+		document.getElementById("nameOutput").innerHTML = "Player: " + savedName;
+	}
+
+	const savedMoney = localStorage.getItem("money");
+	if (savedMoney) {
+		totalMoney = parseInt(savedMoney, 10);
+		document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
+	} else {
+		document.getElementById("moneyDisplay").innerHTML = "Money: $0"; // default if nothing saved yet
 	}
 });
 
@@ -272,13 +285,21 @@ function calculateMoney() {
 	let o = Number(oxenValue.value);
 	let w = Number(wagonValue.value);
 	let p = Number(partsValue.value);
-	//to display the amount of all the variables
+
+	// Calculate the total cost of the selected items
 	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
-	let remaining = 1000 - spent;
 
-	totalMoney = remaining; // Update the global money
+	// Check if the user has enough money
+	if (spent > totalMoney) {
+		alert("You don't have enough money to make that purchase.");
+		return;  // Exit the function without proceeding
+	}
 
-	let shopData = { // extract values from objects and assign to variables to save to localStorage
+	// Subtract the total spent from the total money
+	totalMoney -= spent;
+
+	// Save data to local storage
+	let shopData = {
 		food: f,
 		clothing: c,
 		oxen: o,
@@ -286,33 +307,26 @@ function calculateMoney() {
 		parts: p,
 		money: totalMoney
 	};
-	localStorage.setItem("shopData", JSON.stringify(shopData)); //converts the shopData into a string
+	localStorage.setItem("shopData", JSON.stringify(shopData));
+	localStorage.setItem("money", totalMoney);
 
-	updateShopDisplay();
+	updateShopDisplay();  // Update the shop display
 }
 
-// displays what the user bought
+// Update the shop display
 function updateShopDisplay() {
-	let f = Number(foodValue.value);
-	let c = Number(clothingValue.value);
-	let o = Number(oxenValue.value);
-	let w = Number(wagonValue.value);
-	let p = Number(partsValue.value);
-
-	let result = `You currently have ${f} food, ${c} clothing, ${o} oxen, ${w} wagon, and ${p} spare parts.`;
-	document.getElementById("shopList").innerHTML = result;
-	document.getElementById("resultL").innerHTML = result;
+	document.getElementById("shopList").innerHTML = `You currently have ${foodValue.value} food, ${clothingValue.value} clothing, ${oxenValue.value} oxen, ${wagonValue.value} wagon, and ${partsValue.value} spare parts.`;
+	document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
 }
+
+// Prevent form submission when clicking the button and calculate the money
+document.getElementById("updateMoneyButton").addEventListener("click", function (event) {
+	event.preventDefault();  // Prevent form submission
+	calculateMoney();  // Update the money
+});
 
 function nameSave() {
 	const username = document.getElementById("username").value;
 	localStorage.setItem("username", username);
 	document.getElementById("nameOutput").innerHTML = "Player: " + (localStorage.getItem("username") || "Unknown Traveler");
 }
-
-window.onload = function () {
-	loadGameState();
-	updateDisplay();
-	resultRouting();
-	newQuestion();
-};

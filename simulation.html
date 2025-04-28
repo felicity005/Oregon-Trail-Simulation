@@ -1,44 +1,53 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-    <meta charset="utf-8">
-    <title>Oregon Trail Simulation</title>
-    <link rel="stylesheet" href="oregonTrail.css">
-    <script src="oregonTrail.js"></script>
+	<meta charset="utf-8">
+	<title>Oregon Trail Simulation</title>
+	<link rel="stylesheet" href="oregonTrail.css">
+	<script src="oregonTrail.js"></script>
 </head>
+
 <body>
-    <h1><b>Simulation</b></h1>
-	<p id = "nameOutput"></p>
+	<h1><b>Simulation</b></h1>
+	<p id="nameOutput"></p>
 	<script>
-		document.getElementById("nameOutput").innerHTML = name;
+		window.onload = function () {
+			const name = localStorage.getItem("username") || "Traveler";
+			document.getElementById("nameOutput").innerText = "Welcome, " + name + "!";
+		}
 	</script>
 	<div id="panel">
-        <h2 id="header">Oregon Trail</h2>
-		<p id = "day"></p>
-		<p id = "health"></p>
-		<p id = "left"></p>
-		<p id = "traveled"></p>
+		<h2 id="header">Oregon Trail</h2>
+		<p id="day"></p>
+		<p id="health"></p>
+		<p id="left"></p>
+		<p id="traveled"></p>
+		<p id="shopList"></p>
 		<script>
 			document.getElementById("day").innerHTML = "Day: " + day;
 			document.getElementById("health").innerHTML = "Health: " + health;
 			document.getElementById("left").innerHTML = "Miles Left: " + milesLeft;
 			document.getElementById("traveled").innerHTML = "Miles Traveled: " + milesTraveled;
 		</script>
-    </div>
-	<div id= "simButtons">
+	</div>
+	<div id="simButtons">
 		<input type="submit" value="Travel" id="question" class="button" style="display:block;" onclick="newQuestion()">
 		<button class="button" onclick="goToNextPage('shop.html')">Buy More Materials</button>
-		<button class= "button" onclick="goToNextPage('map.html')">Open Map</button>
+		<button class="button" onclick="goToNextPage('map.html')">Open Map</button>
 	</div>
-	<p id= "questions"><p>
-	<div id= "sim">
-		<button id = "option1" style="display:none;"></button>
+	<p id="questions">
+	<p>
+	<div id="sim">
+		<button id="option1" style="display:none;"></button>
 		<p id="or"></p>
-		<button id = "option2" style="display:none;"></button>
+		<button id="option2" style="display:none;"></button>
 	</div>
+
 	<body onload="resultRouting();"></body>
-	<p id= "ending"></p>
-	<p id= "resultL"></p>
+	<p id="ending"></p>
+	<p id="resultL"></p>
 	<div id="resultOutput"> <!-- The result will be displayed here -->
 </body>
+
 </html>

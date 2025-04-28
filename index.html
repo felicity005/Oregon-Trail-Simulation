@@ -1,33 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
-    <meta charset="utf-8">
-    <title>Oregon Trail Simulation</title>
-    <link rel="stylesheet" href="oregonTrail.css">
-    <script src="oregonTrail.js"></script>
+	<meta charset="utf-8">
+	<title>Oregon Trail Simulation</title>
+	<link rel="stylesheet" href="oregonTrail.css">
+	<script src="oregonTrail.js"></script>
 </head>
+
 <body>
-    <h1><b>Oregon Trail Simulation</b></h1>
+	<h1><b>Oregon Trail Simulation</b></h1>
 	<div>
-		<button class= "button" id= "map" onclick="goToNextPage('map.html')">Open Map</button>
+		<button class="button" id="map" onclick="goToNextPage('map.html')">Open Map</button>
 	</div>
-	<form>
-		<label for "username"> Please enter your name:</label>
-			<input type="text" id= "username" placeholder= "ex.George Washington" minlength= "1" maxlength= "20" required>
-		<button type= "submit" id= "save" onclick= "nameSave()" required>Save</button>
-    </form>
-	<div id= "instructions">
+	<h2>Enter Your Name:</h2>
+	<input type="text" id="username" placeholder="Enter your name">
+	<button onclick="nameSave()" required>Save Name</button>
+	<script>
+		function saveName() {
+			localStorage.setItem("username", document.getElementById("username").value);
+			window.location.href = "game.html";
+		}
+	</script>
+
+	<p id="nameOutput"></p>
+
+	<div id="instructions">
 		<p>
 			Welcome to the Oregon Trail Simulation!<br>
-		You will be traveling from Independence to Oregon City.<br>
-		Throughout the journey, you will encoutner many challenges or successes.<br>
-		First, you will start with $1000 to buy materials, make sure to spend it wisely!<br>
-		Pro Tip: You will need a wagon and two oxen to successfully begin your travels.<br>
-		Farewell my fellow Comrade!
+			You will be traveling from Independence to Oregon City.<br>
+			Throughout the journey, you will encoutner many challenges or successes.<br>
+			First, you will start with $1000 to buy materials, make sure to spend it wisely!<br>
+			Pro Tip: You will need a wagon and two oxen to successfully begin your travels.<br>
+			Farewell my fellow Comrade!
 		</p>
 	</div>
-	<div id= "div1">
-		<button class="button" id= "next" onclick="goToNextPage('shop.html')">Buy Materials</button>
+	<div id="div1">
+		<button class="button" id="next" onclick="goToNextPage('shop.html')">Buy Materials</button>
 	</div>
 </body>
+
 </html>
