@@ -113,6 +113,15 @@ result2[17] = "You bandage the ankle and move slowly. Progress is painful, but y
 result2[18] = "You move on without buying anything. You save money but risk running low on crucial supplies later.";
 result2[19] = "You find some berries to eat. It helps a bit, but not enough to fully feed everyone.";
 
+let endingMessages = [
+	"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits your future adventures!",
+	"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived at Fort Hall. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie.",
+	"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail.",
+	"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost.",
+	"You made it to Independence Rock. A landmark that signifies the midway point of your journey. The rock is more than just a rock, it's a symbol of the hope and determination that every pioneer shared along the trail. As you stand before it, you can almost feel the weight of history pressing against you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land.",
+	"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless in the middle of the trail, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Every traveler faces hardship, and while this chapter ends here, there’s always the chance to rise again. Better luck next time, Traveler."
+];
+
 let day = 0;
 let health = 100;
 let milesLeft = 2170;
@@ -146,14 +155,7 @@ function newQuestion() {
 	document.getElementById("option1").innerHTML = firstOption[randomQ];
 	document.getElementById("or").innerHTML = "or";
 	document.getElementById("option2").innerHTML = secondOption[randomQ];
-	let endingMessages = [
-		"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits your future adventures!",
-		"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived at Fort Hall. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie.",
-		"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail.",
-		"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost.",
-		"You made it to Independence Rock. A landmark that signifies the midway point of your journey. The rock is more than just a rock, it's a symbol of the hope and determination that every pioneer shared along the trail. As you stand before it, you can almost feel the weight of history pressing against you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land.",
-		"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless in the middle of the trail, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Every traveler faces hardship, and while this chapter ends here, there’s always the chance to rise again. Better luck next time, Traveler."
-	];
+
 	if (currentQuestionIndex == randomNum) {
 		document.getElementById("question").style.display = "none";
 		document.getElementById("resultOutput").style.display = "none";
@@ -218,29 +220,43 @@ function ending(milesTraveled, endMessages) {
 }
 
 function travel() {
-	const keywords = ["river", "sick", "hostile", "influenza"];
-	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
+    const keywords = ["river", "sick", "hostile", "influenza"];
+    const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
 
-	let randomMiles = Math.floor(Math.random() * 350);
-	let randomDays = Math.floor(Math.random() * 40);
-	let randomHealthLoss = Math.floor(Math.random() * 35) - amount;
+    let randomMiles = Math.floor(Math.random() * 350);
+    let randomDays = Math.floor(Math.random() * 40);
+    let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
 
-	milesTraveled += randomMiles;
-	milesLeft = 2170 - milesTraveled;
+    milesTraveled += randomMiles;
+    milesLeft = 2170 - milesTraveled;
 
-	day += randomDays;
-	if (day > 365) {
-		day = 365;
-		alert("You have reached day 365.")
-	}
-	health -= randomHealthLoss;
-	if (health < 0) {
-		health = 0;
-		alert("Your health is at 0.")
-	}
+    day += randomDays;
+    if (day > 365) {
+        day = 365;
+        alert("You have reached day 365.");
+    }
 
-	updateDisplay();
-	saveGameState();
+    health -= randomHealthLoss;
+    if (health <= 0) {
+        health = 0;
+        alert("Your health is at 0. Your journey ends here.");
+
+        document.getElementById("sim").style.display = "none";
+        document.getElementById("questions").style.display = "none";
+        document.getElementById("question").style.display = "none";
+        document.getElementById("resultOutput").style.display = "none";
+
+		document.getElementById("health").innerHTML = "Health: 0";
+        document.getElementById("ending").innerHTML = endingMessages[5];
+
+		document.getElementById("option1").disabled = true;
+		document.getElementById("option2").disabled = true;
+
+        return; // travel function will break
+    }
+
+    updateDisplay();
+    saveGameState();
 }
 
 function updateDisplay() {
@@ -311,7 +327,6 @@ window.addEventListener("DOMContentLoaded", () => {
 		totalMoney = savedData.money;
 		updateShopDisplay();
 	}
-
 	// Load saved name and money
 	const savedName = localStorage.getItem("username");
 	if (savedName) {
