@@ -14,6 +14,16 @@ questions[6] = "Your ox gets sick. Will you...";
 questions[7] = "You pass another traveller on your way, and they offer to trade with you, offering you food. Will you give them...";
 questions[8] = "You see a sign for two different paths, a longer, safer one, or a shorter, more dangerous one. Will you take...";
 questions[9] = "You start coughing and have a runny nose, and realize you have a fever. You've caught influenza! Will you...";
+questions[10] = "You find a wagon wheel cracked badly. Do you...";
+questions[11] = "You encounter a steep hill. Do you...";
+questions[12] = "A stranger approaches you offering a map that claims to reveal a shortcut. Do you...";
+questions[13] = "You realize you are low on clean water. Do you...";
+questions[14] = "A sudden storm hits, flooding the trail. Do you...";
+questions[15] = "You find abandoned supplies, but they look a little suspicious. Do you...";
+questions[16] = "You hear howling in the distance during the night. Do you...";
+questions[17] = "One of your party members sprains an ankle. Do you...";
+questions[18] = "You reach a small trading post, but prices are very high. Do you...";
+questions[19] = "Food is getting scarce and hunting has been poor. Do you...";
 
 var firstOption = new Array(); //list of first option of would you rather questions to ask the user 
 firstOption[0] = "cross a river and risk losing some of your belongings?";
@@ -26,6 +36,16 @@ firstOption[6] = "leave your ox behind?";
 firstOption[7] = "an ox?";
 firstOption[8] = "the safer path?";
 firstOption[9] = "stop and rest, knowing you are wasting precious days before bad weather comes in?";
+firstOption[10] = "try to repair it yourself using your spare parts?";
+firstOption[11] = "take the hill head-on, risking exhaustion?";
+firstOption[12] = "trust the stranger and pay for the map?";
+firstOption[13] = "search for a river nearby to refill your supplies?";
+firstOption[14] = "wait out the storm, even if it costs precious time?";
+firstOption[15] = "take the supplies, hoping they are not spoiled?";
+firstOption[16] = "stay awake all night to guard your wagon?";
+firstOption[17] = "stop and rest for a few days to let them recover?";
+firstOption[18] = "buy supplies anyway, despite the high cost?";
+firstOption[19] = "ration your remaining food more strictly?";
 
 var secondOption = new Array(); //list of second option of would you rather questions to ask the user 
 secondOption[0] = "walk along the river bank to see if there is a bridge?";
@@ -38,6 +58,16 @@ secondOption[6] = "care for your ox?";
 secondOption[7] = "spare parts?";
 secondOption[8] = "the more dangerous path?";
 secondOption[9] = "continue on, because reaching your destination before the weather gets bad is more important?";
+secondOption[10] = "leave the broken wagon and carry what you can on foot?";
+secondOption[11] = "try to find a longer, easier path around the hill?";
+secondOption[12] = "decline and stick to your original route?";
+secondOption[13] = "boil and reuse any water you have left?";
+secondOption[14] = "try to cross through the flooded trail carefully?";
+secondOption[15] = "leave the supplies, suspecting they might be poisoned?";
+secondOption[16] = "trust your luck and just sleep normally?";
+secondOption[17] = "bandage the ankle and push forward slowly?";
+secondOption[18] = "move on without buying, conserving your money for later?";
+secondOption[19] = "try to find berries or edible plants nearby?";
 
 var result1 = new Array();
 result1[0] = "You cross the river, but unfortunately lose some spare parts. Thankfully, everything else is fine!";
@@ -50,6 +80,16 @@ result1[6] = "You leave your sick ox behind, which lightens your load but makes 
 result1[7] = "You trade an ox with the traveler, but don’t tell them it's an ox that got sick and isn’t able to work as a healthy ox would. How devious!";
 result1[8] = "You take the safer path, which is longer but avoids potential danger. While it costs extra time, you feel safer and more secure in your journey.";
 result1[9] = "You stop and rest, and you regain some health and energy to continue your journey. You are more efficient than ever!";
+result1[10] = "You repair the wheel successfully using a spare part, but you have fewer parts left for future repairs.";
+result1[11] = "You take the hill head-on. It’s exhausting, but you make it over without any major issues.";
+result1[12] = "You trust the stranger and pay for the map. It leads you to a shortcut, saving you several days of travel!";
+result1[13] = "You find a river and refill your supplies. The water is fresh, and you avoid dehydration.";
+result1[14] = "You wait out the storm. Though you lose a day, you stay safe and dry.";
+result1[15] = "You take the supplies. Luckily, most of it is still good, and it boosts your food stores!";
+result1[16] = "You stay awake guarding your wagon. You scare off a pack of wolves that approach during the night.";
+result1[17] = "You stop to rest for a few days. Your party member recovers well, but you lose valuable travel time.";
+result1[18] = "You buy the expensive supplies. It hurts your wallet, but you're well-stocked for the tough journey ahead.";
+result1[19] = "You ration carefully. It’s tough on morale, but it keeps everyone fed a little longer.";
 
 var result2 = new Array();
 result2[0] = "You walk the entire day, looking for a bridge. You don’t find any, and waste an entire day. The next day, you cross the river and lose some food, but you gain a spare part along the way.";
@@ -62,6 +102,16 @@ result2[6] = "You decide to care for your sick ox. It takes a couple of days of 
 result2[7] = "You decide to trade some spare parts with the traveler for food. While you gain food, you are now down on spare parts, which may affect your ability to fix things later on in your journey.";
 result2[8] = "You take the more dangerous path. There are a few rough spots, but you manage to push through. You save time, but the journey has taken a toll on your health and morale. One of your oxen gets hurt too. ";
 result2[9] = "You continue on despite the fever, hoping to make it to your destination before the weather worsens. It's a risk, but you push through the sickness and manage to get a bit farther.";
+result2[10] = "You abandon the wagon. Carrying everything slows you down drastically, but you manage to keep moving.";
+result2[11] = "You find a longer path that’s easier to travel, but you lose two extra days in detour.";
+result2[12] = "You decline the stranger’s offer. Later you hear rumors the map was fake. Good call!";
+result2[13] = "You reuse your water, but someone in your party gets sick from contaminated water, slowing you down.";
+result2[14] = "You cross the flooded trail. It’s dangerous and you lose a few supplies, but you make it across.";
+result2[15] = "You leave the suspicious supplies. A few miles later, you hear of another group that got sick from eating tainted food!";
+result2[16] = "You sleep normally. Nothing happens, but you wake up to find a few supplies stolen!";
+result2[17] = "You bandage the ankle and move slowly. Progress is painful, but you stay more or less on schedule.";
+result2[18] = "You move on without buying anything. You save money but risk running low on crucial supplies later.";
+result2[19] = "You find some berries to eat. It helps a bit, but not enough to fully feed everyone.";
 
 let day = 0;
 let health = 100;
@@ -90,13 +140,12 @@ function newQuestion() {
 	resultOutput.style.display = "none";
 
 	//Reset index if you want to loop through questions
-	if (currentQuestionIndex >= questions.length) {
-		currentQuestionIndex = 0;
-	}
-	document.getElementById("questions").innerHTML = questions[currentQuestionIndex];
-	document.getElementById("option1").innerHTML = firstOption[currentQuestionIndex];
+	let randomQ = Math.floor(Math.random() * 20);
+	currentQuestionIndex = randomQ;
+	document.getElementById("questions").innerHTML = questions[randomQ];
+	document.getElementById("option1").innerHTML = firstOption[randomQ];
 	document.getElementById("or").innerHTML = "or";
-	document.getElementById("option2").innerHTML = secondOption[currentQuestionIndex];
+	document.getElementById("option2").innerHTML = secondOption[randomQ];
 	let endingMessages = [
 		"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits your future adventures!",
 		"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived at Fort Hall. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie.",
