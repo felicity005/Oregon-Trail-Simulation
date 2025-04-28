@@ -72,12 +72,12 @@ secondOption[19] = "try to find berries or edible plants nearby?";
 var result1 = new Array();
 result1[0] = "You cross the river, but unfortunately lose some spare parts. Thankfully, everything else is fine!";
 result1[1] = "You go left and are forced to travel down a sloped area. One of your oxen gets injured, so you are set back a couple of days waiting for it to heal. However, on the way, you come across some shiitake mushrooms!";
-result1[2] = "You look around for a buffalo to eat. Many days pass before you see your first one. But your aim doesn’t fail you—you now have weeks' worth of food to eat!";
-result1[3] = "You let go of one of your oxen, which makes the journey harder. You have to take extra care of the remaining ox to ensure it stays healthy.";
+result1[2] = "You look around for a buffalo to eat. Many days pass before you see your first one. But your aim doesn’t fail you—you now have weeks of meals to eat!";
+result1[3] = "You let go of an ox, which makes the journey harder. You have to take extra care of the remaining oxen to ensure they stay healthy.";
 result1[4] = "You disregard the danger, build a fire to keep yourself warm, and go to sleep. Fortunately, the fire keeps you warm, but the next morning, you realize you're behind schedule and have wasted a day.";
 result1[5] = "You decide to take the ox with you. Although it will require additional food, it allows you to move faster and reach your destination quicker.";
 result1[6] = "You leave your sick ox behind, which lightens your load but makes you feel guilty. You hope it will survive without you.";
-result1[7] = "You trade an ox with the traveler, but don’t tell them it's an ox that got sick and isn’t able to work as a healthy ox would. How devious!";
+result1[7] = "You trade an ox with the traveler, but don’t tell them it's an one that got sick and isn’t able to work as a healthy one would. How devious!";
 result1[8] = "You take the safer path, which is longer but avoids potential danger. While it costs extra time, you feel safer and more secure in your journey.";
 result1[9] = "You stop and rest, and you regain some health and energy to continue your journey. You are more efficient than ever!";
 result1[10] = "You repair the wheel successfully using a spare part, but you have fewer parts left for future repairs.";
@@ -85,42 +85,43 @@ result1[11] = "You take the hill head-on. It’s exhausting, but you make it ove
 result1[12] = "You trust the stranger and pay for the map. It leads you to a shortcut, saving you several days of travel!";
 result1[13] = "You find a river and refill your supplies. The water is fresh, and you avoid dehydration.";
 result1[14] = "You wait out the storm. Though you lose a day, you stay safe and dry.";
-result1[15] = "You take the supplies. Luckily, most of it is still good, and it boosts your food stores!";
+result1[15] = "You take the supplies. Luckily, most of it is still good, and now you have so many more meals!";
 result1[16] = "You stay awake guarding your wagon. You scare off a pack of wolves that approach during the night.";
-result1[17] = "You stop to rest for a few days. Your party member recovers well, but you lose valuable travel time.";
+result1[17] = "You stop to rest for a few days. You recover well, but you lose valuable travel time.";
 result1[18] = "You buy the expensive supplies. It hurts your wallet, but you're well-stocked for the tough journey ahead.";
 result1[19] = "You ration carefully. It’s tough on morale, but it keeps everyone fed a little longer.";
 
 var result2 = new Array();
 result2[0] = "You walk the entire day, looking for a bridge. You don’t find any, and waste an entire day. The next day, you cross the river and lose some food, but you gain a spare part along the way.";
-result2[1] = "You go right, and reach a clearing. There is some wood left behind where someone previously lit a fire. You heat up some water and eat some food, giving some to your oxen. This is the first time in a long time that you’ve had hot food.";
-result2[2] = "You continue along the way, hoping the food that you have will be able to sustain you. Many days pass, and you and your oxen are extremely hungry. But your luck turns, and you pass a deserted wagon! You don’t know who left it there, or how long it has been there, but you take the food and eat for the first time in days.";
-result2[3] = "You let go of some of your food, but now you have fewer meals. This will make it harder to travel, and you may be at risk of running out of food soon.";
+result2[1] = "You go right, and reach a clearing. There is some wood left behind where someone previously lit a fire. You heat up some water and eat some food, giving some to your oxen. This is the first time in a long time that you’ve had something hot to eat.";
+result2[2] = "You continue along the way, hoping what you have will be able to sustain you. Many days pass, and you and your oxen are extremely hungry. But your luck turns, and you pass a deserted wagon! You don’t know who left it there, or how long it has been there, but you take the meal and eat for the first time in days.";
+result2[3] = "You let go of some of your food, but now you have fewer meals. This will make it harder to travel, and you may be at risk of running out soon.";
 result2[4] = "You continue traveling, hoping to escape the hostile territory. Fortunately, you don't encounter any dangers and eventually get out of their range, but you've lost valuable time.";
 result2[5] = "You leave the sick ox behind, knowing you don’t have enough food. However, the journey feels a bit easier with less weight to carry, though you feel a sense of loss.";
-result2[6] = "You decide to care for your sick ox. It takes a couple of days of rest, but your ox gets better, and you can continue traveling with your full team. You’re glad you made the decision you did.";
-result2[7] = "You decide to trade some spare parts with the traveler for food. While you gain food, you are now down on spare parts, which may affect your ability to fix things later on in your journey.";
-result2[8] = "You take the more dangerous path. There are a few rough spots, but you manage to push through. You save time, but the journey has taken a toll on your health and morale. One of your oxen gets hurt too. ";
+result2[6] = "You decide to care for your sick ox. It takes a couple of days of rest, but it gets better, and you can continue traveling with your full team. You’re glad you made the decision you did.";
+result2[7] = "You decide to trade some spare parts with the traveler for meals. You are now down on spare parts, which may affect your ability to fix things later on in your journey.";
+result2[8] = "You take the more dangerous path. There are a few rough spots, but you manage to push through. You save time, but the journey has taken a toll on your health and morale. An ox gets hurt too. ";
 result2[9] = "You continue on despite the fever, hoping to make it to your destination before the weather worsens. It's a risk, but you push through the sickness and manage to get a bit farther.";
 result2[10] = "You abandon the wagon. Carrying everything slows you down drastically, but you manage to keep moving.";
 result2[11] = "You find a longer path that’s easier to travel, but you lose two extra days in detour.";
 result2[12] = "You decline the stranger’s offer. Later you hear rumors the map was fake. Good call!";
 result2[13] = "You reuse your water, but someone in your party gets sick from contaminated water, slowing you down.";
 result2[14] = "You cross the flooded trail. It’s dangerous and you lose a few supplies, but you make it across.";
-result2[15] = "You leave the suspicious supplies. A few miles later, you hear of another group that got sick from eating tainted food!";
+result2[15] = "You leave the suspicious supplies. A few miles later, you hear of another group that got sick! You’re glad you left those supplies alone.";
 result2[16] = "You sleep normally. Nothing happens, but you wake up to find a few supplies stolen!";
-result2[17] = "You bandage the ankle and move slowly. Progress is painful, but you stay more or less on schedule.";
-result2[18] = "You move on without buying anything. You save money but risk running low on crucial supplies later.";
-result2[19] = "You find some berries to eat. It helps a bit, but not enough to fully feed everyone.";
+result2[17] = "You bandage the ankle and move slowly. Your ankle pains a lot, but you remain on schedule. ";
+result2[18] = "You move on without buying anything.You don’t know if this decision will come back to bite you.";
+result2[19] = "You find some berries to eat. It helps a bit, but there is still not enough food to fully feed everyone.";
 
 let endingMessages = [
-	"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits your future adventures!",
-	"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived at Fort Hall. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie.",
-	"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail.",
-	"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost.",
-	"You made it to Independence Rock. A landmark that signifies the midway point of your journey. The rock is more than just a rock, it's a symbol of the hope and determination that every pioneer shared along the trail. As you stand before it, you can almost feel the weight of history pressing against you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land.",
-	"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless in the middle of the trail, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Every traveler faces hardship, and while this chapter ends here, there’s always the chance to rise again. Better luck next time, Traveler."
+	"After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits!",
+	"You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie. You decide to stop there, content with where you have reached, and hope to make another trip to reach Oregon soon.",
+	"You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail. You decide you want to stay there forever.",
+	"You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost. You find a new home there.",
+	"You made it to Independence Rock. A landmark that signifies the midway point of your journey. As you stand before it, you can almost feel the gaze of all the previous travellers weighing on you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land. You carve your name on it too.",
+	"Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
 ];
+
 
 let day = 0;
 let health = 100;
@@ -198,65 +199,83 @@ function hideQuestionAndOptions() {
 	document.getElementById("question").style.display = "block";
 }
 
-function ending(milesTraveled, endMessages) {
+function ending(milesTraveled) {
 	if (milesTraveled == 2170) {
-		return endMessages[0];
+		return endingMessages[0];
 	}
 	else if (milesTraveled < 2170 && milesTraveled >= 1160) {
-		return endMessages[1];
+		return endingMessages[1];
 	}
 	else if (milesTraveled < 1160 && milesTraveled >= 1130) {
-		return endMessages[2];
+		return endingMessages[2];
 	}
 	else if (milesTraveled < 1130 && milesTraveled >= 900) {
-		return endMessages[3];
+		return endingMessages[3];
 	}
 	else if (milesTraveled < 900 && milesTraveled >= 500) {
-		return endMessages[4];
+		return endingMessages[4];
 	}
 	else {
-		return endMessages[5];
+		return endingMessages[5];
 	}
 }
 
 function travel() {
-    const keywords = ["river", "sick", "hostile", "influenza"];
-    const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
+	const keywords = ["river", "sick", "hostile", "influenza"];
+	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
 
-    let randomMiles = Math.floor(Math.random() * 350);
-    let randomDays = Math.floor(Math.random() * 40);
-    let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
+	let randomMiles = Math.floor(Math.random() * 350);
+	let randomDays = Math.floor(Math.random() * 40);
+	let randomHealthLoss = Math.floor(Math.random() * 30) - amount;
+	let endMessage = ending(milesTraveled)
 
-    milesTraveled += randomMiles;
-    milesLeft = 2170 - milesTraveled;
+	milesTraveled += randomMiles;
+	milesLeft = 2170 - milesTraveled;
 
-    day += randomDays;
-    if (day > 365) {
-        day = 365;
-        alert("You have reached day 365.");
-    }
+	day += randomDays;
+	if (day > 365) {
+		day = 365;
+		alert("You have reached day 365.");
+	}
 
-    health -= randomHealthLoss;
-    if (health <= 0) {
-        health = 0;
-        alert("Your health is at 0. Your journey ends here.");
+	if (milesLeft <= 0) {
+		document.getElementById("sim").style.display = "none";
+		document.getElementById("questions").style.display = "none";
+		document.getElementById("question").style.display = "none";
+		document.getElementById("resultOutput").style.display = "none";
 
-        document.getElementById("sim").style.display = "none";
-        document.getElementById("questions").style.display = "none";
-        document.getElementById("question").style.display = "none";
-        document.getElementById("resultOutput").style.display = "none";
+		document.getElementById("left").innerHTML = "Miles Left: 0";
+		document.getElementById("traveled").innerHTML = "Miles Traveled: 2170";
 
-		document.getElementById("health").innerHTML = "Health: 0";
-        document.getElementById("ending").innerHTML = endingMessages[5];
+		document.getElementById("ending").innerHTML = endMessage;
 
 		document.getElementById("option1").disabled = true;
 		document.getElementById("option2").disabled = true;
+	}
 
-        return; // travel function will break
-    }
+	health -= randomHealthLoss;
+	if (health <= 0) {
+		health = 0;
+		alert("Your health is at 0. Your journey ends here.");
 
-    updateDisplay();
-    saveGameState();
+		document.getElementById("sim").style.display = "none";
+		document.getElementById("questions").style.display = "none";
+		document.getElementById("question").style.display = "none";
+		document.getElementById("resultOutput").style.display = "none";
+
+		document.getElementById("health").innerHTML = "Health: 0";
+
+		document.getElementById("ending").innerHTML = endMessage;
+
+		document.getElementById("option1").disabled = true;
+		document.getElementById("option2").disabled = true;
+		createFinishButton();
+
+		return; // travel function will break
+	}
+
+	updateDisplay();
+	saveGameState();
 }
 
 function updateDisplay() {
@@ -267,13 +286,17 @@ function updateDisplay() {
 }
 
 function saveGameState() {
-	const state = {
+	let state = {
 		day,
 		health,
 		milesLeft,
 		milesTraveled
 	};
-	localStorage.setItem("oregonTrailGameState", JSON.stringify(state));
+	localStorage.setItem("state", JSON.stringify(state));
+	localStorage.setItem("day", day);
+	localStorage.setItem("health", health);
+	localStorage.setItem("milesLeft", milesLeft);
+	localStorage.setItem("milesTraveled", milesTraveled);
 }
 
 function loadGameState() {
@@ -295,7 +318,7 @@ function applyEffectsFromQuestion(keywords, questionText) {
 	let lowerCaseQuestion = questionText.toLowerCase();
 	let found = false;
 	for (let i = 0; i < keywords.length; i++) {
-		if (lowerCaseQuestion.includes(keywords[i])) { // use includes!
+		if (lowerCaseQuestion.includes(keywords[i])) {
 			found = true; // found a dangerous keyword
 		}
 	}
@@ -393,4 +416,93 @@ function nameSave() {
 	const username = document.getElementById("username").value;
 	localStorage.setItem("username", username);
 	document.getElementById("nameOutput").innerHTML = "Player: " + (localStorage.getItem("username") || "Unknown Traveler");
+}
+
+
+function createFinishButton() {
+	let finishButton = document.createElement("button");   // Create button to finish task
+	finishButton.innerHTML = "Play Again";
+	finishButton.onclick = () => restartGame();
+}
+
+function restartGame() {
+	// Clear the local storage to reset the game state
+	localStorage.removeItem("oregonTrailGameState");
+	localStorage.removeItem("shopData");
+	localStorage.removeItem("money");
+	localStorage.removeItem("username");
+
+	// Reset game variables to initial state
+	day = 0;
+	health = 100;
+	milesLeft = 2170;
+	milesTraveled = 0;
+
+	// Reset shop values
+	foodValue.value = 0;
+	clothingValue.value = 0;
+	oxenValue.value = 0;
+	wagonValue.value = 0;
+	partsValue.value = 0;
+
+	totalMoney = 1000;  // Assuming starting money
+
+	// Hide the current game display and show the start page again
+	document.getElementById("sim").style.display = "none";
+	document.getElementById("questions").style.display = "none";
+	document.getElementById("resultOutput").style.display = "none";
+	document.getElementById("ending").style.display = "none";  // Hide the ending message if it's visible
+
+	// Redirect to the index page
+	window.location.href = "index.html";
+}
+
+function checkHealth() {
+	if (health <= 0) { // Show the restart button when health reaches 0
+		document.getElementById("restartButton").style.display = "block";
+	}
+}
+
+function updateFood(result) {
+	let newResult = result.toLowerCase();  // converts answer choice to lowercase
+
+	for (let i = 0; i < newResult.length - 3; i++) {
+		let word = newResult.substring(i, i + 4);  // 4 letter substring
+
+		if (word == "food") {
+			savedData.food = savedData.food - 1;  // decrease food count
+		}
+		if (word == "meal") {
+			savedData.food = savedData.food + 1;  // increase food count
+		}
+	}
+}
+
+function updateOx(result) {
+	let newResult = result.toLowerCase();  // converts answer choice to lowercase
+
+	for (let i = 0; i < newResult.length - 1; i++) { // Check for "ox" in the result string
+		let word = newResult.substring(i, i + 2);
+		if (word == "ox") {
+			savedData.oxen = savedData.oxen - 1;  // decrease oxen count
+		}
+	}
+
+	for (let i = 0; i < newResult.length - 10; i++) { // Check for "take the ox" in the result string
+		let phrase = newResult.substring(i, i + 11);
+		if (phrase == "take the ox") {
+			savedData.oxen = savedData.oxen + 1;  // increase oxen count
+		}
+	}
+}
+
+function updateParts(result) {
+	let newResult = result.toLowerCase();  // converts answer choice to lowercase
+
+	for (let i = 0; i < newResult.length - 4; i++) { // Check for "parts" in the result string
+		let word = newResult.substring(i, i + 5);
+		if (word == "parts") {
+			savedData.parts = savedData.parts - 1;  // decrease spare parts count
+		}
+	}
 }

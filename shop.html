@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
 	<meta charset="utf-8">
 	<title>Oregon Trail Simulation!</title>
 	<link rel="stylesheet" href="oregonTrail.css">
-	<script src="oregonTrail.js" defer></script> <!-- Ensure the JS loads after the HTML -->
+	<script src="oregonTrail.js" defer></script>
 </head>
+
 <body>
 	<h1><b>Shop!</b></h1>
-
+	<h2 id="nameOutput">Welcome, Traveler!</h2>
 	<form name="shop">
 		<label for="food">Food: $40.00</label>
 		<input id="food" type="number" placeholder="0" value="0" min="0" max="20"><br>
@@ -19,14 +21,11 @@
 		<label for="wagon">Wagon: $200.00</label>
 		<input id="wagon" type="number" placeholder="0" value="0" min="0" max="20"><br>
 		<label for="parts">Spare Parts: $50.00</label>
-		<input id="parts" type="number" placeholder="0" value="0" min="0" max="20"><br>	
-		<button class="button" onclick="calculateMoney()">Update Total</button>
+		<input id="parts" type="number" placeholder="0" value="0" min="0" max="20"><br>
+		<button class="button" id="updateMoneyButton">Update Total</button>
 	</form>
-
-	<label for="output">Amount of Money:</label>
-	<input id="output" type="text" readonly>
-
-	<div id= "shopList"></div>
+	<h3 id="moneyDisplay"></h3>
+	<div id="shopList"></div>
 	<div id="back">
 		<button class="button" onclick="goToNextPage('simulation.html')">Go to the Simulation!</button>
 	</div>
