@@ -1,7 +1,6 @@
 function goToNextPage(nextPage) {
 	window.location.href = nextPage;
 }
-//used chatgpt to help lengthen the questions and check for grammar & syntax mistakes
 //Simulation questions and answers section
 var questions = new Array(); //list of beginning parts to each question
 questions[0] = "You come across a river. Do you...";
@@ -75,7 +74,7 @@ result1[1] = "You go left and are forced to travel down a sloped area. One of yo
 result1[2] = "You look around for a buffalo to eat. Many days pass before you see your first one. But your aim doesn’t fail you—you now have weeks of meals to eat!";
 result1[3] = "You let go of an ox, which makes the journey harder. You have to take extra care of the remaining oxen to ensure they stay healthy.";
 result1[4] = "You disregard the danger, build a fire to keep yourself warm, and go to sleep. Fortunately, the fire keeps you warm, but the next morning, you realize you're behind schedule and have wasted a day.";
-result1[5] = "You decide to take the ox with you. Although it will require additional food, it allows you to move faster and reach your destination quicker.";
+result1[5] = "You decide to take the it with you. Although it will require additional food, it allows you to move faster and reach your destination quicker.";
 result1[6] = "You leave your sick ox behind, which lightens your load but makes you feel guilty. You hope it will survive without you.";
 result1[7] = "You trade an ox with the traveler, but don’t tell them it's an one that got sick and isn’t able to work as a healthy one would. How devious!";
 result1[8] = "You take the safer path, which is longer but avoids potential danger. While it costs extra time, you feel safer and more secure in your journey.";
@@ -127,9 +126,10 @@ let milesLeft = 2170;
 let milesTraveled = 0;
 
 let currentQuestionIndex = 0; // Track the current question
-let randomNum = Math.floor(Math.random() * 6) + 3;
+let randomNum = Math.floor(Math.random() * 6) + 3; // The random number of questions that each user gets
 
 function newQuestion() {
+	// Basically sets all the items that I want to hide later so it is easier
 	let sim = document.getElementById("sim");
 	let questionText = document.getElementById("questions");
 	let questionArea = document.getElementById("question");
@@ -166,7 +166,7 @@ function newQuestion() {
 		document.getElementById("ending").innerHTML = endMessage;
 	}
 }
-
+// Basically directs the intended output to each of the options chosen
 function resultRouting() {
 	document.getElementById("option1").onclick = function () {
 		let result = result1[currentQuestionIndex];
@@ -192,7 +192,7 @@ function resultRouting() {
 		updateShopDisplay();
 	};
 }
-
+//calls all the functions where the option chosen is passed through
 function updateInventory(result) {
 	updateFood(result);
 	updateOx(result);
@@ -205,13 +205,13 @@ function showResult(result) {
 	resultOutput.innerHTML = result;
 	resultOutput.style.display = "block"; //Show result only now
 }
-
+//function for hiding the questions and options once option is chosen
 function hideQuestionAndOptions() {
 	document.getElementById("sim").style.display = "none";
 	document.getElementById("questions").style.display = "none";
 	document.getElementById("question").style.display = "block";
 }
-
+// Outputs different ending messages based on the number of miles traveled
 function ending(milesTraveled) {
 	if (milesTraveled == 2170) {
 		return endingMessages[0];
@@ -234,6 +234,7 @@ function ending(milesTraveled) {
 }
 
 function travel() {
+	// Array of keywords that are used to check if health should be subtracted or not
 	const keywords = ["river", "sick", "hostile", "influenza"];
 	const amount = applyEffectsFromQuestion(keywords, questions[currentQuestionIndex]);
 
@@ -521,6 +522,7 @@ function restartGame() {
     // Save the reset shop data and money to localStorage
     localStorage.setItem("shopData", JSON.stringify(savedData));
     localStorage.setItem("money", "1000");
+
     totalMoney = 1000;  // Reset starting money
 
     // Reset the input fields (in case they weren't cleared properly)
@@ -546,10 +548,10 @@ function restartGame() {
 
 function updateFood(result) {
     let text = result.toLowerCase();
-    if (text.includes("lose food")) {
+    if (text.includes("food")) {
         savedData.food = Math.max(0, savedData.food - 1);
     }
-    if (text.includes("gain food") || text.includes("meal")) {
+    if (text.includes("meal")) {
         savedData.food += 1;
     }
     localStorage.setItem("shopData", JSON.stringify(savedData));
@@ -558,10 +560,10 @@ function updateFood(result) {
 
 function updateOx(result) {
 	let text = result.toLowerCase();
-	if (text.includes("lose ox") || text.includes("oxen died") || text.includes("stolen ox")) {
+	if (text.includes("ox")) {
 		savedData.oxen = Math.max(0, savedData.oxen - 1);
 	}
-	if (text.includes("gain ox") || text.includes("find ox") || text.includes("take the ox")) {
+	if (text.includes("take it")) {
 		savedData.oxen += 1;
 	}
 	localStorage.setItem("shopData", JSON.stringify(savedData));
@@ -570,11 +572,8 @@ function updateOx(result) {
 
 function updateParts(result) {
 	let text = result.toLowerCase();
-	if (text.includes("lose part") || text.includes("wagon broke") || text.includes("lost parts")) {
+	if (text.includes("parts")) {
 		savedData.parts = Math.max(0, savedData.parts - 1);
-	}
-	if (text.includes("gain part") || text.includes("found parts")) {
-		savedData.parts += 1;
 	}
 	localStorage.setItem("shopData", JSON.stringify(savedData));
 	saveGameState();
