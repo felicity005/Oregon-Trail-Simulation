@@ -1,7 +1,7 @@
 function goToNextPage(nextPage) {
 	window.location.href = nextPage;
 }
-
+//used chatgpt to help lengthen the questions and check for grammar & syntax mistakes
 //Simulation questions and answers section
 var questions = new Array(); //list of beginning parts to each question
 questions[0] = "You come across a river. Do you...";
@@ -114,12 +114,12 @@ result2[18] = "You move on without buying anything.You don’t know if this deci
 result2[19] = "You find some berries to eat. It helps a bit, but there is still not enough food to fully feed everyone.";
 
 var endingMessages = new Array();
-	endingMessages[0] = "After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits!",
-	endingMessages[1] = "You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie. You decide to stop there, content with where you have reached, and hope to make another trip to reach Oregon soon.",
-	endingMessages[2] = "You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail. You decide you want to stay there forever.",
-	endingMessages[3] = "You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost. You find a new home there.",
-	endingMessages[4] = "You made it to Independence Rock. A landmark that signifies the midway point of your journey. As you stand before it, you can almost feel the gaze of all the previous travellers weighing on you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land. You carve your name on it too.",
-	endingMessages[5] = "Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
+endingMessages[0] = "After a long and grueling journey through dangerous rivers, terrains, and unpredictable weather, you've finally arrived at Oregon City! The scent of fresh air and the sight of green pastures greet you as you step off your wagon. Your perseverance and determination have paid off, Congratulations! Your journey is complete. Oregon awaits!",
+endingMessages[1] = "You made it to Fort Hall! After countless days on the trail, battling exhaustion, disease, and the hardships of the journey, you've arrived. The sound of wagons rolling into the fort's gates signals your arrival, and the weary faces of other travelers offer silent nods of camaraderie. You decide to stop there, content with where you have reached, and hope to make another trip to reach Oregon soon.",
+endingMessages[2] = "You made it to Soda Springs. The landscape before you changes as you arrive at the bubbling, refreshing waters of Soda Springs. The constant bubbling of the springs offers both comfort and a reminder of nature's unpredictability. As you rest by the springs, the surrounding beauty serves as a brief reprieve from the hardships of the trail. You decide you want to stay there forever.",
+endingMessages[3] = "You made it to Fort Boise. The dusty roads lead you to a beacon of safety and stability amidst the rugged wilderness. The fort stands as a testament to human resilience, offering shelter and supplies to those who have endured the harsh conditions of the Oregon Trail. The people of Fort Boise share stories of others who have passed through—some victorious, others lost. You find a new home there.",
+endingMessages[4] = "You made it to Independence Rock. A landmark that signifies the midway point of your journey. As you stand before it, you can almost feel the gaze of all the previous travellers weighing on you. This iconic landmark has seen countless travelers carve their names into its surface, each marking their passage through this unforgiving land. You carve your name on it too.",
+endingMessages[5] = "Tragedy strikes as your wagon breaks down, and resources have dwindled too far to continue. The wilderness around you feels both endless and oppressive. You are stranded, helpless, with no clear path forward. The dream of reaching Oregon fades as you realize your journey has come to an untimely halt. Better luck next time."
 
 let day = 0;
 let health = 100;
@@ -172,8 +172,8 @@ function resultRouting() {
 		let result = result1[currentQuestionIndex];
 		showResult(result);
 		updateFood(result);
-		updateOx(result); 
-		updateParts(result); 
+		updateOx(result);
+		updateParts(result);
 		hideQuestionAndOptions();
 		travel();
 		currentQuestionIndex++;
@@ -184,7 +184,7 @@ function resultRouting() {
 		let result = result2[currentQuestionIndex];
 		showResult(result);
 		updateFood(result);
-		updateOx(result); 
+		updateOx(result);
 		updateParts(result);
 		hideQuestionAndOptions();
 		travel();
@@ -274,7 +274,6 @@ function travel() {
 
 		document.getElementById("option1").disabled = true;
 		document.getElementById("option2").disabled = true;
-		createFinishButton();
 
 		return;
 	}
@@ -291,31 +290,53 @@ function updateDisplay() {
 }
 
 function saveGameState() {
-	let state = {
-		day,
-		health,
-		milesLeft,
-		milesTraveled,
-		money: totalMoney // Save money as part of the main game state
-	};
-	localStorage.setItem("oregonTrailGameState", JSON.stringify(state));
+    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0,
+        money: 1000
+    };
+
+    let gameState = {
+        day,
+        health,
+        milesLeft,
+        milesTraveled,
+        food: savedData.food,
+        clothing: savedData.clothing,
+        oxen: savedData.oxen,
+        wagon: savedData.wagon,
+        parts: savedData.parts,
+        money: totalMoney
+    };
+
+    localStorage.setItem("oregonTrailGameState", JSON.stringify(gameState));
 }
 
 function loadGameState() {
-	const saved = localStorage.getItem("oregonTrailGameState");
-	if (saved) {
-		const state = JSON.parse(saved);
-		day = state.day || 0;
-		health = state.health || 100;
-		milesLeft = state.milesLeft || 2170;
-		milesTraveled = state.milesTraveled || 0;
-		totalMoney = state.money !== undefined ? state.money : 1000;
+    const saved = localStorage.getItem("oregonTrailGameState");
+    if (saved) {
+        const state = JSON.parse(saved);
+        day = state.day || 0;
+        health = state.health || 100;
+        milesLeft = state.milesLeft || 2170;
+        milesTraveled = state.milesTraveled || 0;
+        totalMoney = state.money !== undefined ? state.money : 1000;
 
-		if (day > 365) day = 365;
-		if (health < 0) health = 0;
-	}
-	updateDisplay();
-	updateShopDisplay();
+        // Restore shop inventory too
+        savedData.food = state.food || 0;
+        savedData.clothing = state.clothing || 0;
+        savedData.oxen = state.oxen || 0;
+        savedData.wagon = state.wagon || 0;
+        savedData.parts = state.parts || 0;
+
+        // Save updated shopData separately if you still want
+        localStorage.setItem("shopData", JSON.stringify(savedData));
+    }
+    updateDisplay();
+    updateShopDisplay();
 }
 
 function applyEffectsFromQuestion(keywords, questionText) {
@@ -371,53 +392,74 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Update total money and display purchases
 function calculateMoney() {
-	// New purchase input amounts
-	let f = Number(foodValue.value);
-	let c = Number(clothingValue.value);
-	let o = Number(oxenValue.value);
-	let w = Number(wagonValue.value);
-	let p = Number(partsValue.value);
+    // New purchase input amounts
+    let f = Number(foodValue.value);
+    let c = Number(clothingValue.value);
+    let o = Number(oxenValue.value);
+    let w = Number(wagonValue.value);
+    let p = Number(partsValue.value);
 
-	// Calculate cost of new purchase
-	let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
+    // Load previous shopData or initialize
+    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0
+    };
 
-	if (spent > totalMoney) {
-		alert("You don't have enough money to make that purchase.");
-		return; // Exit if not enough money
-	}
+    // Calculate the total items AFTER this purchase
+    let totalFood = savedData.food + f;
+    let totalClothing = savedData.clothing + c;
+    let totalOxen = savedData.oxen + o;
+    let totalWagon = savedData.wagon + w;
+    let totalParts = savedData.parts + p;
 
-	// Subtract money
-	totalMoney -= spent;
+    // Check minimum inventory needed
+    if (totalOxen < 2) {
+        alert("You must have at least 2 oxen to start your journey!");
+        return;
+    }
+    if (totalWagon < 1) {
+        alert("You must have at least 1 wagon to start your journey!");
+        return;
+    }
+    if (totalFood < 4) {
+        alert("You must have at least 4 units of food to start your journey!");
+        return;
+    }
 
-	// Get previous shopData or initialize if none
-	let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-		food: 0,
-		clothing: 0,
-		oxen: 0,
-		wagon: 0,
-		parts: 0
-	};
+    // Calculate cost of new purchase
+    let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
 
-	// Add new purchases to existing inventory
-	savedData.food += f;
-	savedData.clothing += c;
-	savedData.oxen += o;
-	savedData.wagon += w;
-	savedData.parts += p;
-	savedData.money = totalMoney;
+    if (spent > totalMoney) {
+        alert("You don't have enough money to make that purchase.");
+        return;
+    }
 
-	// Save updated inventory
-	localStorage.setItem("shopData", JSON.stringify(savedData));
-	localStorage.setItem("money", totalMoney);
+    // Subtract money
+    totalMoney -= spent;
 
-	// Clear inputs after purchase
-	foodValue.value = 0;
-	clothingValue.value = 0;
-	oxenValue.value = 0;
-	wagonValue.value = 0;
-	partsValue.value = 0;
+    // Update saved inventory
+    savedData.food = totalFood;
+    savedData.clothing = totalClothing;
+    savedData.oxen = totalOxen;
+    savedData.wagon = totalWagon;
+    savedData.parts = totalParts;
+    savedData.money = totalMoney;
 
-	updateShopDisplay();
+    // Save updated inventory
+    localStorage.setItem("shopData", JSON.stringify(savedData));
+    localStorage.setItem("money", totalMoney);
+
+    // Clear inputs
+    foodValue.value = 0;
+    clothingValue.value = 0;
+    oxenValue.value = 0;
+    wagonValue.value = 0;
+    partsValue.value = 0;
+
+    updateShopDisplay();
 }
 
 let savedData = JSON.parse(localStorage.getItem("shopData")) || {
@@ -439,7 +481,7 @@ function updateShopDisplay() {
 	};
 
 	document.getElementById("shopList").innerHTML = `You currently have ${savedData.food} food, ${savedData.clothing} clothing, ${savedData.oxen} oxen, ${savedData.wagon} wagon, and ${savedData.parts} spare parts.`;
-	document.getElementById("moneyDisplay").innerHTML = "Money: $" + totalMoney;
+	document.getElementById("moneyDisplay").innerHTML = "Remaining Money: $" + totalMoney;
 }
 
 // Prevent form submission when clicking the button and calculate the money
@@ -500,7 +542,10 @@ function updateFood(result) {
 	if (text.includes("gain food") || text.includes("meal")) {
 		savedData.food += 1;
 	}
+	localStorage.setItem("shopData", JSON.stringify(savedData));
+	saveGameState();
 }
+
 function updateOx(result) {
 	let text = result.toLowerCase();
 	if (text.includes("lose ox") || text.includes("oxen died") || text.includes("stolen ox")) {
@@ -509,6 +554,8 @@ function updateOx(result) {
 	if (text.includes("gain ox") || text.includes("find ox") || text.includes("take the ox")) {
 		savedData.oxen += 1;
 	}
+	localStorage.setItem("shopData", JSON.stringify(savedData));
+	saveGameState();
 }
 
 function updateParts(result) {
@@ -519,8 +566,9 @@ function updateParts(result) {
 	if (text.includes("gain part") || text.includes("found parts")) {
 		savedData.parts += 1;
 	}
+	localStorage.setItem("shopData", JSON.stringify(savedData));
+	saveGameState();
 }
-
 function startNewGame() {
 	alert("Please make sure to buy new items after starting a new game.")
 	localStorage.setItem("newGame", "true");
@@ -531,7 +579,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Check if player wants a NEW GAME
 	let newGame = localStorage.getItem("newGame");
 
-	if (newGame === "true") {
+	if (newGame == "true") {
 		// Reset money
 		totalMoney = 1000;
 		localStorage.setItem("money", totalMoney);
@@ -545,6 +593,34 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Continue from saved money
 		totalMoney = Number(localStorage.getItem("money")) || 1600;
 	}
-
+	loadGameState();
 	updateShopDisplay();
 });
+
+function checkSuppliesAndToggleButton() {
+    const savedData = JSON.parse(localStorage.getItem("shopData"));
+    const travelButton = document.getElementById("travelButton");
+
+    if (!savedData) {
+        travelButton.disabled = true;
+        travelButton.style.backgroundColor = "grey";
+        return;
+    }
+
+    const hasEnoughOxen = savedData.oxen >= 2;
+    const hasEnoughWagon = savedData.wagon >= 1;
+    const hasEnoughFood = savedData.food >= 4;
+
+    if (hasEnoughOxen && hasEnoughWagon && hasEnoughFood) {
+        travelButton.disabled = false;
+        travelButton.style.backgroundColor = ""; // Reset to normal styling
+    } else {
+        travelButton.disabled = true;
+        travelButton.style.backgroundColor = "grey";
+    }
+}
+
+// Call it when the page loads
+window.onload = function () {
+    checkSuppliesAndToggleButton();
+};
