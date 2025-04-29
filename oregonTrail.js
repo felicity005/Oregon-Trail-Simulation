@@ -388,59 +388,56 @@ window.addEventListener("DOMContentLoaded", () => {
 	} else {
 		document.getElementById("moneyDisplay").innerHTML = "Money: $0"; // default if nothing saved yet
 	}
+	loadGameState();
+    loadShopData();
 });
+
+function loadShopData() {
+    // If a new game is started, reset shop data
+    if (localStorage.getItem("newGame") == "true") {
+        savedData = {
+            food: 0,
+            clothing: 0,
+            oxen: 0,
+            wagon: 0,
+            parts: 0,
+            money: 1000
+        };
+        localStorage.setItem("shopData", JSON.stringify(savedData));
+        localStorage.setItem("newGame", "false");
+    }
+
+    savedData = JSON.parse(localStorage.getItem("shopData")) || savedData;
+    updateShopDisplay();
+}
 
 // Update total money and display purchases
 function calculateMoney() {
-    // New purchase input amounts
     let f = Number(foodValue.value);
     let c = Number(clothingValue.value);
     let o = Number(oxenValue.value);
     let w = Number(wagonValue.value);
     let p = Number(partsValue.value);
 
-    // Load previous shopData or initialize
-    let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-        food: 0,
-        clothing: 0,
-        oxen: 0,
-        wagon: 0,
-        parts: 0
-    };
-
-    // Calculate the total items AFTER this purchase
     let totalFood = savedData.food + f;
     let totalClothing = savedData.clothing + c;
     let totalOxen = savedData.oxen + o;
     let totalWagon = savedData.wagon + w;
     let totalParts = savedData.parts + p;
 
-    // Check minimum inventory needed
-    if (totalOxen < 2) {
-        alert("You must have at least 2 oxen to start your journey!");
-        return;
-    }
-    if (totalWagon < 1) {
-        alert("You must have at least 1 wagon to start your journey!");
-        return;
-    }
-    if (totalFood < 4) {
-        alert("You must have at least 4 units of food to start your journey!");
-        return;
-    }
+    if (totalOxen < 2) { alert("You must have at least 2 oxen!"); return; }
+    if (totalWagon < 1) { alert("You must have at least 1 wagon!"); return; }
+    if (totalFood < 4) { alert("You must have at least 4 food!"); return; }
 
-    // Calculate cost of new purchase
     let spent = (40 * f) + (20 * c) + (100 * o) + (200 * w) + (50 * p);
 
     if (spent > totalMoney) {
-        alert("You don't have enough money to make that purchase.");
+        alert("You don't have enough money.");
         return;
     }
 
-    // Subtract money
     totalMoney -= spent;
 
-    // Update saved inventory
     savedData.food = totalFood;
     savedData.clothing = totalClothing;
     savedData.oxen = totalOxen;
@@ -448,11 +445,9 @@ function calculateMoney() {
     savedData.parts = totalParts;
     savedData.money = totalMoney;
 
-    // Save updated inventory
     localStorage.setItem("shopData", JSON.stringify(savedData));
     localStorage.setItem("money", totalMoney);
 
-    // Clear inputs
     foodValue.value = 0;
     clothingValue.value = 0;
     oxenValue.value = 0;
@@ -463,25 +458,23 @@ function calculateMoney() {
 }
 
 let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-	food: 0,
-	clothing: 0,
-	oxen: 0,
-	wagon: 0,
-	parts: 0,
-	money: 1000
+    food: 0,
+    clothing: 0,
+    oxen: 0,
+    wagon: 0,
+    parts: 0,
+    money: 1000
 };
 // Update the shop display
 function updateShopDisplay() {
-	let savedData = JSON.parse(localStorage.getItem("shopData")) || {
-		food: 0,
-		clothing: 0,
-		oxen: 0,
-		wagon: 0,
-		parts: 0
-	};
-
-	document.getElementById("shopList").innerHTML = `You currently have ${savedData.food} food, ${savedData.clothing} clothing, ${savedData.oxen} oxen, ${savedData.wagon} wagon, and ${savedData.parts} spare parts.`;
-	document.getElementById("moneyDisplay").innerHTML = "Remaining Money: $" + totalMoney;
+    savedData = JSON.parse(localStorage.getItem("shopData")) || savedData;
+    document.getElementById("shopList").innerHTML = `
+        You currently have ${savedData.food} food, 
+        ${savedData.clothing} clothing, 
+        ${savedData.oxen} oxen, 
+        ${savedData.wagon} wagon, and 
+        ${savedData.parts} spare parts.`;
+    document.getElementById("moneyDisplay").innerHTML = "Remaining Money: $" + savedData.money;
 }
 
 // Prevent form submission when clicking the button and calculate the money
@@ -503,47 +496,64 @@ function createFinishButton() {
 }
 
 function restartGame() {
-	// Clear the local storage to reset the game state
-	localStorage.removeItem("oregonTrailGameState");
-	localStorage.removeItem("shopData");
-	localStorage.removeItem("money");
-	localStorage.removeItem("username");
+    // Clear the local storage to reset the game state
+    localStorage.removeItem("oregonTrailGameState");
+    localStorage.removeItem("shopData");
+    localStorage.removeItem("money");
+    localStorage.removeItem("username");
 
-	// Reset game variables to initial state
-	day = 0;
-	health = 100;
-	milesLeft = 2170;
-	milesTraveled = 0;
+    // Reset game variables to initial state
+    day = 0;
+    health = 100;
+    milesLeft = 2170;
+    milesTraveled = 0;
 
-	// Reset shop values
-	foodValue.value = 0;
-	clothingValue.value = 0;
-	oxenValue.value = 0;
-	wagonValue.value = 0;
-	partsValue.value = 0;
+    // Reset shop values (make sure to reset them here)
+    let savedData = {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0,
+        money: 1000
+    };
 
-	totalMoney = 1000;  // Assuming starting money
+    // Save the reset shop data and money to localStorage
+    localStorage.setItem("shopData", JSON.stringify(savedData));
+    localStorage.setItem("money", "1000");
+    totalMoney = 1000;  // Reset starting money
 
-	// Hide the current game display and show the start page again
-	document.getElementById("sim").style.display = "none";
-	document.getElementById("questions").style.display = "none";
-	document.getElementById("resultOutput").style.display = "none";
-	document.getElementById("ending").style.display = "none";  // Hide the ending message if it's visible
+    // Reset the input fields (in case they weren't cleared properly)
+    foodValue.value = 0;
+    clothingValue.value = 0;
+    oxenValue.value = 0;
+    wagonValue.value = 0;
+    partsValue.value = 0;
 
-	// Redirect to the index page
-	window.location.href = "index.html";
+    // Hide the current game display and show the start page again
+    document.getElementById("sim").style.display = "none";
+    document.getElementById("questions").style.display = "none";
+    document.getElementById("resultOutput").style.display = "none";
+    document.getElementById("ending").style.display = "none";  // Hide the ending message if it's visible
+
+    // Refresh the page or manually reset the state
+    location.reload();  // This triggers a full reload to reset everything properly
+    saveGameState();
+    saveShopData();
+    updateDisplay();
+    updateShopDisplay();
 }
 
 function updateFood(result) {
-	let text = result.toLowerCase();
-	if (text.includes("lose food")) {
-		savedData.food = Math.max(0, savedData.food - 1); // Prevent negative
-	}
-	if (text.includes("gain food") || text.includes("meal")) {
-		savedData.food += 1;
-	}
-	localStorage.setItem("shopData", JSON.stringify(savedData));
-	saveGameState();
+    let text = result.toLowerCase();
+    if (text.includes("lose food")) {
+        savedData.food = Math.max(0, savedData.food - 1);
+    }
+    if (text.includes("gain food") || text.includes("meal")) {
+        savedData.food += 1;
+    }
+    localStorage.setItem("shopData", JSON.stringify(savedData));
+    saveGameState();
 }
 
 function updateOx(result) {
@@ -569,32 +579,55 @@ function updateParts(result) {
 	localStorage.setItem("shopData", JSON.stringify(savedData));
 	saveGameState();
 }
+
 function startNewGame() {
-	alert("Please make sure to buy new items after starting a new game.")
-	localStorage.setItem("newGame", "true");
-	location.reload(); // Reload the page to trigger the reset
+    alert("Please make sure to buy new items after starting a new game.");
+    // Reset shop values
+    savedData = {
+        food: 0,
+        clothing: 0,
+        oxen: 0,
+        wagon: 0,
+        parts: 0,
+        money: 1000
+    };
+    // Ensure the localStorage is cleared for a fresh start
+    localStorage.setItem("shopData", JSON.stringify(savedData)); // Save new game data
+    localStorage.setItem("money", "1000"); // Reset money to 1000
+    localStorage.setItem("newGame", "true"); // Mark this as a new game
+    localStorage.removeItem("oregonTrailGameState"); // Clear the previous game state if any
+    localStorage.removeItem("username"); // Clear any saved username
+
+    // Reload the page to trigger the reset
+    location.reload(); 
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-	// Check if player wants a NEW GAME
-	let newGame = localStorage.getItem("newGame");
-
-	if (newGame == "true") {
-		// Reset money
-		totalMoney = 1000;
-		localStorage.setItem("money", totalMoney);
-
-		// Reset shop data too if needed
-		localStorage.removeItem("shopData");
-
-		// Turn off newGame flag
-		localStorage.setItem("newGame", "false");
-	} else {
-		// Continue from saved money
-		totalMoney = Number(localStorage.getItem("money")) || 1600;
-	}
-	loadGameState();
-	updateShopDisplay();
+    let newGame = localStorage.getItem("newGame") == "true";
+    
+    if (newGame) {
+        // Reset saved data for a new game
+        savedData = {
+            food: 0,
+            clothing: 0,
+            oxen: 0,
+            wagon: 0,
+            parts: 0,
+            money: 1000
+        };
+        localStorage.setItem("shopData", JSON.stringify(savedData)); // Save new shop data
+        localStorage.setItem("money", "1000"); // Reset money
+        localStorage.setItem("newGame", "false"); // Mark the game as not new anymore
+        totalMoney = 1000; // Reset total money
+    } else {
+        // Load the saved data if not a new game
+        savedData = JSON.parse(localStorage.getItem("shopData")) || savedData;
+        totalMoney = Number(localStorage.getItem("money")) || 1000;
+    }
+    
+    updateShopDisplay();
+    loadGameState();
+    checkSuppliesAndToggleButton();
 });
 
 function checkSuppliesAndToggleButton() {
